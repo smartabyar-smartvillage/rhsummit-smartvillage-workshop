@@ -1,24 +1,4 @@
-= Visualizing live traffic data from the edge to the cloud
-= LB2480
-
-== Lab module index
-
-* Module 1: Introductions
-
-* Module 2: Installation and Prerequisites
-
-* module 3: Smart devices
-
-* module 4: IoT Agents
-
-* module 5: The smart village microservice
-
-* module 6: Visualizing the scenario
-
-* module 7: Conclusion
-
-
-
+= {lab_name}
 
 The `lab_name` var, known as an asciidoc attribute, above was set in `./content/antora.yml` and can be used to set the lab_name or title of your content.
 You are both free to change its value and if you prefer to use a different var name, you can change the value of `lab_name`, for example to `title` in `./content/antora.yml` and then reference it in your content as `\{title}`. +

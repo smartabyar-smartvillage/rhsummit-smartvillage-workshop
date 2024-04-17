@@ -1,0 +1,87 @@
+= The smart village microservice
+
+We are writing a Microservice that we can run on openshift. The goal is to read Map data from the official Smart Village API and push map data to your own Smart Village instance that we have deployed in the previous labs.
+
+In this lab, we will be making use of the Openshift AI workbench to create our application that can interact with the smart village components we have already seen and deploy an application that can interact with the smart devices in your smart city.   We will do this by writing a Python program and a Dockerfile that will containerize the service -- Openshift AI already has the python oriented development tools to make this process simple and it lays the foundation for later experimentation.
+
+== Setting values we will use for this program
+
+Before we get started, we will set up a few convenience items that we will use for testing this application, we want to talk to the environment you hav deployed previously notebook. 
+The above commands will first set environment variables for `MAP_SERVER_URL`, `CLIENT_ID` and `CLIENT_SECRET` and use them to create a openshift secret we can later download to update our workbench in the next section.
+
+Starting from a new OpenShift Cluster and Project, we start a new OpenShift AI Workbench using a VSCode image with JupyterHub, IJava, OpenJDK, and Maven dependencies installed.
+
+link:assets/images/openshift-ai-workbench.png[image:images/openshift-ai-workbench.png[VSCode IJava java-17-openjdk OpenShift AI Workbench]]
+
+* We deploy some edit role bindings so that we can deploy the Smart Village Platform components directly from a Jupyter Notebook in our VSCode Workbench.
+* We install some Python dependencies like Ansible, since we have already automated the deployment of the Smart Village Platform with an Ansible Operator.
+
+Set up an OpenShift AI Workbench
+
+== Accessing OpenShift AI
+
+In the OpenShift Console, click on the  image:images/100002010000003000000024AAAC041571052865.png["apps button"] at the top,
+
+image:images/intro-lab-initial-user-showroom.png("The banner navigation buttons") 
+
+then click image:[ OpenShift AI] to log into OpenShift AI.
+ 
+Click the button to .
+
+Log into OpenShift AI by clicking on the  button.
+
+Once you are in OpenShift AI, click on the menu button ,
+
+then click .
+
+Then click on the name of your data science project, for our project it's test-stream.
+
+Create a new OpenShift AI Workbench
+To create a new workbench, click .
+
+To stay consistent with the rest of the course, enter the workbench name "vscode".
+
+For Image selection, choose "VSCode IJava java-17-openjdk".
+
+You can leave the rest of the fields as the default. At the very bottom, click .
+
+After a minute or two, you should see the workbench change from  to .
+
+Access your OpenShift AI Workbench
+In OpenShift AI, click on the  link to open your new OpenShift AI Workbench.
+
+Log into OpenShift AI by clicking on the [ Log in with OpenShift ] button.
+
+You will need to authorize yourself access to your workbench. Click .
+
+Helpful tips for running the commands in this notebook
+There are several commands that are written into this notebook that can be run directly in the notebook.
+
+Just click on the commands in order, and press [ Shift ] + [ Enter ].
+
+You can use the arrow keys to move to the next section of the notebook.
+
+
+You will want to open a Terminal inside your OpenShift AI Workbench to load the course resources. There are many ways to open a terminal, but here is one that always works.
+
+At the top, click  →  → .
+
+== Using an OpenShift AI Python Workbench
+
+
+=== Clone the smartabyar-smartvillage-sandbox-course course
+With git, clone the course materials to the default home directory (/opt/app-root/src) of your workbench.
+
+----
+git clone https://github.com/smartabyar-smartvillage/rhsummit-smartvillage-workshop.git
+----
+
+It will ask you to enter your username and password. This is where you enter your GitHub username, and the token value you copied from GitHub earlier. The git credential.helper store should remember your password.
+
+=== Open the course Jupyter Notebook
+A Jupyter Notebook is an interactive, online notebook, and the rest of the course be found in the Jupter Notebook. Here is how to find the course Jupyter Notebook.
+
+In your workbench, make sure your left sidebar is open. If it’s not, press [ Ctrl ] + [ b ].
+Navigate to smartabyar-smartvillage-sandbox-course.
+Open the first Notebook `deploy-python-microservice.ipynb` and follow the instructions from there.
+

@@ -1,0 +1,334 @@
+= Smart devices
+
+In this module we will set up some smart devices in your smart city.
+
+As a smart city manager, the goal is to accurately model the IoT devices available to you -- either provided by a manufacturer, or already emplaced for you.
+This data may be available from a device registry or other source -- but for planning and simulation, these devices are likely going to synthetic representations.
+
+For this workshop we will be populating a traffic simulation that will model some smart traffic sensors that detect the flow of traffic through an intersection.
+To make it interesting, we will let you find your favorite location -- like your hometown, birthplace, or honeymoon spot -- on a map and select the specific geospatial coordinates of interest.
+
+== Create some smart devices
+
+For this exercise we'll use link:https://geojson.io[a web tool known as geojson.io] to find and create the coordinates for you.
+GeoJson is also a standard data format -- a huge advantage for integrating smart IoT data in a smart city since we can pull common data into our context broker and share it with various data consumers.
+
+Open a new tab in your web browser and navigate to https://geojson.io .
+
+.The geojson.io interface with a user manipulatable globe and a pane with associated object data
+image::_images/create-geojson-home.png["The geojson.io interface with a user manipulatable globe and a pane with associated object data"]
+
+Here you will see the basic interface for geojson.io and it shows a globe which you can manipulate with your mouse or with your keyboard (arrow keys to move/rotate and +/- to zoom in and out). You will need vision and your mouse to draw some objects; please contact a lab facilitator if you need assistance with this process or have accessibility concerns. You've need to grab several coordinates from this to complete our intersection -- so keep this map and browser tab opened and the map centered on your chosen location.
+
+Spin the globe and zoom in and out to find a point of interest or use the search bar and type in the name of your favorite place. Zoom in enough to locate single traffic intersection on the map
+
+.A (not so) random intersection (eg, https://geojson.io/#map=17.1/35.658039/139.702912) and the coordinates we will be grabbing
+image::_images/intersection-location-0001.png["A (not so) random intersection (eg, https://geojson.io/#map=17.1/35.658039/139.702912) and the coordinates we will be grabbing"]
+
+For the purposes of this lab, we'll grab several polygons and several locations for each of our smart traffic cameras.
+Use the mapping tools available in geojson.io to locate draw points in the map with the point tool.
+
+There should be one for each road near the intersection where a traffic light should be, typically overhead the center of the lane or road or immediately adjacent on the sidewalk.
+
+Then for each traffic camera, create a polygon indicating its field of view: typically the road or lane next to the placement of the camera itself.
+
+.Camera locations and fields of view for the example intersection
+image::_images/intersection-object-locations-0001.png["Camera locations and fields of view for the example intersection"]
+
+When completed, the GeoJson.io tool will create the necessary data object, already encoded for you.
+We'll need this data for our next exercise.
+
+An example of the of the completed geojson generated for you.
+----
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              139.70210356122487,
+              35.65791849996971
+            ],
+            [
+              139.70229876320582,
+              35.65762569217446
+            ],
+            [
+              139.70307957113226,
+              35.65791443320231
+            ],
+            [
+              139.7029844727292,
+              35.658158438890894
+            ],
+            [
+              139.70210356122487,
+              35.65791849996971
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    }
+  ]
+}
+----
+
+If you need assistance with this portion of the lab, for example using the geojson tool or accessibility accommodations drawing or creating these objects, please contact a workshop facilitator.
+
+Completion of this exercise is not required for later portions of the lab.
+
+== Create the Smart Village objects
+
+Now that we have created some smart devices, and hopefully these included:
+
+* at least one *traffic light* which you should have saved the geojson encoding for
+* at least one *traffic camera* which you should have saved the geojson encoding for
+
+we will create the equivalent representations of these devices in the smart village platform. For the most part the names of these objects will be easy  to recognize and map to normal objects and concepts. In this case though the our traffic camera is represented by a *TrafficFlowObserved* object -- which refers to observations recorded by the camera rather than the camera itself.
+
+=== Create your `SmartTrafficLight` (s)
+
+In your OpenShift Container Platform console:
+
+. Make sure you are in your project (eg `user1`)
+
+. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDfefinition` (s) for the associated objects
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+
+. Select the `(STL) SmartTrafficLight` object. Feel free to look at the tabs in the API object page, pay attention to the `Schema` and note how the `spec` matches  the comments above.
+
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+
+. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
+
+----
+apiVersion: smartvillage.computate.org/v1
+kind: SmartTrafficLight
+metadata:
+  name: veberod-intersection-1
+  namespace: smartvillage
+spec:
+  iotagent:
+    name: iotagent-json
+    namespace: smartvillage
+    service_name: iotagent-json
+  context_broker:
+    name: scorpiobroker
+    namespace: smartvillage
+    service_name: scorpiobroker
+  ngsi_ld:
+    service: smarttrafficlights
+    service_path: /Sweden/Veberod/CityCenter
+    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+  device:
+    id: veberod-intersection-1
+    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
+  message_broker:
+    namespace: smartvillage
+    transport: AMQP
+    host: default-rabbitmq.smartvillage.svc
+    port: 5672
+    user: user
+    secret:
+      name: rabbitmq-password
+      key: rabbitmq-password
+  smartvillage:
+    auth_secret_name: smartvillage
+    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
+    site_base_url: http://smartabyar-smartvillage-web:8080
+  attributes:
+    location: 55.633703, 13.492540
+    smartTrafficLightName: Veberöd intersection 1
+
+----
+
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`.
+
+. Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
+
+the TrafficFlowObserved
+
+=== Create your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
+
+Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
+
+. Make sure you are in your project (eg `user1`)
+
+. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDfefinition` (s) for the associated objects
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+
+. *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
+
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+
+. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
+
+----
+apiVersion: smartvillage.computate.org/v1
+kind: TrafficFlowObserved
+metadata:
+  name: sweden-veberod-1-lakaregatan-ne
+  namespace: smartvillage
+spec:
+  iotagent:
+    name: iotagent-json
+    namespace: smartvillage
+    service_name: iotagent-json
+  context_broker:
+    name: scorpiobroker
+    namespace: smartvillage
+    service_name: scorpiobroker
+  ngsi_ld:
+    service: trafficflowobserveds
+    service_path: /Sweden/Veberod/CityCenter
+    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+  device:
+    id: sweden-veberod-1-lakaregatan-ne
+    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
+  message_broker:
+    namespace: smartvillage
+    transport: AMQP
+    host: default-rabbitmq.smartvillage.svc
+    port: 5672
+    user: user
+    secret:
+      name: rabbitmq-password
+      key: rabbitmq-password
+  smartvillage:
+    auth_secret_name: smartvillage
+    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
+    site_base_url: http://smartabyar-smartvillage-web:8080
+  attributes:
+    trafficSimulationId: urn:ngsi-ld:TrafficSimulation:veberod-intersection-1
+    customTrafficLightId: urn:ngsi-ld:SmartTrafficLight:veberod-intersection-1
+    laneAreaDetectorId: det_13
+    areaServed: {"type":"LineString","coordinates":[[13.491925461716146,55.63271352675811],[13.491959719458668,55.6328803799553],[13.492001830794774,55.63307851322209],[13.49203583929166,55.633165023015664],[13.492094186839967,55.63326306524109],[13.49212323459849,55.63330503030353],[13.49224266648859,55.633425750604616],[13.49241399185663,55.63359752341646],[13.492416280489497,55.633599977927105],[13.492519465989837,55.63370944475262],[13.492544230047926,55.63372646415785]]}
+    averageVehicleLength: 5
+    averageGapDistance: 1
+    averageVehicleSpeed: 55
+    customRouteId: r42
+    customSigma: 0.5
+    customAcceleration: 2.6
+    customDeceleration: 4.5
+    customMinGreenTime: 10.0
+    customMaxGreenTime: 20.0
+    customAverageVehiclesPerMinute: 10.0
+    customDemandScalingFactor: 1.00
+    customQueueLengthThreshold: 8.0
+----
+
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
+
+. Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
+
+
+=== Create your `CrowdFlowObserved` (s)
+
+These objects represent traffic cameras that can also detect and track pedestrian activity. We did not create these in Geojson , but you can use the same coordinates for these from the above TrafficFlowObserved objects. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets. 
+
+Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
+
+. Make sure you are in your project (eg `user1`)
+
+. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDfefinition` (s) for the associated objects
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+
+. *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
+
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+
+. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
+
+----
+apiVersion: smartvillage.computate.org/v1
+kind: TrafficFlowObserved
+metadata:
+  name: sweden-veberod-1-lakaregatan-ne
+  namespace: smartvillage
+spec:
+  iotagent:
+    name: iotagent-json
+    namespace: smartvillage
+    service_name: iotagent-json
+  context_broker:
+    name: scorpiobroker
+    namespace: smartvillage
+    service_name: scorpiobroker
+  ngsi_ld:
+    service: trafficflowobserveds
+    service_path: /Sweden/Veberod/CityCenter
+    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+  device:
+    id: sweden-veberod-1-lakaregatan-ne
+    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
+  message_broker:
+    namespace: smartvillage
+    transport: AMQP
+    host: default-rabbitmq.smartvillage.svc
+    port: 5672
+    user: user
+    secret:
+      name: rabbitmq-password
+      key: rabbitmq-password
+  smartvillage:
+    auth_secret_name: smartvillage
+    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
+    site_base_url: http://smartabyar-smartvillage-web:8080
+  attributes:
+    trafficSimulationId: urn:ngsi-ld:TrafficSimulation:veberod-intersection-1
+    customTrafficLightId: urn:ngsi-ld:SmartTrafficLight:veberod-intersection-1
+    laneAreaDetectorId: det_13
+    areaServed: {"type":"LineString","coordinates":[[13.491925461716146,55.63271352675811],[13.491959719458668,55.6328803799553],[13.492001830794774,55.63307851322209],[13.49203583929166,55.633165023015664],[13.492094186839967,55.63326306524109],[13.49212323459849,55.63330503030353],[13.49224266648859,55.633425750604616],[13.49241399185663,55.63359752341646],[13.492416280489497,55.633599977927105],[13.492519465989837,55.63370944475262],[13.492544230047926,55.63372646415785]]}
+    averageVehicleLength: 5
+    averageGapDistance: 1
+    averageVehicleSpeed: 55
+    customRouteId: r42
+    customSigma: 0.5
+    customAcceleration: 2.6
+    customDeceleration: 4.5
+    customMinGreenTime: 10.0
+    customMaxGreenTime: 20.0
+    customAverageVehiclesPerMinute: 10.0
+    customDemandScalingFactor: 1.00
+    customQueueLengthThreshold: 8.0
+----
+
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
+
+. Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
+
+== Your smart city
+
+Congratulations, you have started the process of building a smart city. The assets you have in place are just the start, aimed at addressing your currently concerned with -- monitoring your traffic so you can start looking for ways to manage it better and improve things.
+
+What's next?
+
+=== Simulating your city 
+
+Simulating activity is critical to test improvements and determine what will be effective at achieving your intended goals and cost efficient to implement. Out next labs will start down this process
+
+=== Analytics & AIML
+
+Analytics derived from smart city data and sensors can significantly enhance the quality of life for citizens in various ways.
+
+The Openshift AI platform that can be  deployed with Openshift Container Platform is a critical enabler of a complete analytic workflow process by allowing these simulations to drive experiments, collect the results, and detect and check for potential errors or biases (which is essential anytime you are working with simulated data) 
+
+=== Other domains
+
+We are focused on traffic scenarios ad that is what these devices provide data for. But smart cities have to leverage a lot of other data types and integrate these. In concert, e NSGI-lD data models and the FIWARE platform encompass many of these domains
+
+
+
+
+

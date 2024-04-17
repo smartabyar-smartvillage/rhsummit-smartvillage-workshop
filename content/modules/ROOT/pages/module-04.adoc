@@ -1,0 +1,116 @@
+= IoT Agents
+
+Actual IoT devices are simulated in the lab via an *IoT Agent* a small piece of software that will provide the inteface for simluated devices to interact with the smart village platform.
+
+An IoT Agent receives messages from smart devices to update the device state, or perform some kind of action on the device. The IoT Agent is a reactive application that can:
+
+* register smart devices
+* connect to various types of message brokers
+* receive messages in a native device protocol
+* and send updates to a context broker following the NGSI-LD standard format for smart device data.
+
+You can find the full [NGSI-LD API Operation Definition in section 5 of this PDF]. NGSI-LD stores entities as the primary data stored. Entities can be any data representing any [Smart Device Model data](https://github.com/smart-data-models) in the world. There are so many Smart Data Models in the world, but they can be grouped into the following domains:
+
+* Smart Cities
+* Smart Agrifood
+* Smart Water
+* Smart Energy
+* Smart Logistics
+* Smart Robotics
+* Smart Sensoring
+* Cross sector
+* Smart Health
+* Smart Destination
+* Smart Environment
+* Smart Aeronautics
+* Smart Manufacturing
+* Incubated
+* Harmonization
+
+Don't feel limited to stick to these domains, you can create your own smart data models and follow the NGSI-LD specification to confirm to all the latest open standards for managing smart device data. Here are some of the native device protocols and corresponding IoT Agents that can connect the device to the context broker. 
+
+- link:https://fiware-iotagent-json.readthedocs.io/en/latest/[IoTAgent-JSON] - a bridge between HTTP/MQTT messaging (with a JSON payload) and NGSI
+- link:https://fiware-iotagent-lwm2m.readthedocs.io/en/latest[IoTAgent-LWM2M] - a bridge between the Lightweight M2M protocol and NGSI
+- link:https://fiware-iotagent-ul.readthedocs.io/en/latest[IoTAgent-UL] - a bridge between HTTP/MQTT messaging (with an UltraLight2.0 payload) and NGSI
+- link:https://fiware-lorawan.readthedocs.io/en/latest[IoTAgent-LoRaWAN] - a bridge between the LoRaWAN protocol and NGSI
+- link:https://iotagent-opcua.readthedocs.io/en/latest/[IoTagent-OPCUA] - a bridge between the OPC-UA protocol and NGSI
+
+== The Smart Village IoT Agent
+
+If you are curious what the IoTAgentJson custom resource definition looks like that we are using, run the command below in your showroom terminal:
+
+----
+cat ~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
+echo DONE
+----
+
+Here are some useful things to note about the configuration of the IoT Agent JSON: 
+
+* `ngsild:` We configure the host and port of the context broker, we use the ScorpioBroker host and port in the same namespace.
+
+* `mongodb:` We configure the name of MongoDB, and the kubernetes Secret name and key for the MongoDB password. This allows us to connect to MongoDB to store smart device registrations.
+
+* `message_broker:` We configure the host of the message broker, and the kubernetes Secret name and key for the RabbitMQ password. This allows us to connect to RabbitMQ and start listening for messages. 
+
+* `replicas: 1` We'll only deploy 1 replica for our simple experiments in this lab environment and this helps to stay within the resource quota of the our lab environment.
+
+* `route`: We create a public route for the IoT Agent API if you want to interact with it from your own computer.
+
+* The `resources:` definition defines the memory and CPU requests and limits for our IoT Agent JSON pod. We have to keep this lower than for a production deployment because this lab usesa shared smrt cities platform for running Smart Village services. 
+
+For more information about the IoTAgentJson custom resource definition, [see the full IoTAgentJson schema here](https://github.com/smartabyar-smartvillage/smartvillage-operator/blob/main/config/crd/bases/smartvillage.computate.org_iotagentjsons.yaml).
+
+As note, many of the smart village platform components are already deployed for you, but run this command in your terminal to check and confirm 
+
+----
+oc get pod -l app.kubernetes.io/instance=iotagent-json
+oc wait pod -l app.kubernetes.io/instance=iotagent-json --for=condition=Ready --timeout=2m
+oc get pod -l app.kubernetes.io/instance=iotagent-json
+echo DONE
+----
+
+== Registering your smart devices with the agent
+
+In the last exercise, you found and created some smart devices, and hopefully these included
+
+* at least one *traffic light* which you should have saved the geojson encoding for
+* at least one *traffic light observed* which you should have saved the geojson encoding for
+
+We will create these corresponding ojects and register these with our IoT agent.
+
+=== Register your `SmartTrafficLight` (s)
+
+=== Register your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
+
+ansible-playbook ~/smartvillage-operator/apply-iotagentjson.yaml \
+  -e ansible_operator_meta_namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace) \
+  -e crd_path=~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
+echo DONE
+
+=== Register your `CrowdFlowObserved` (s)
+
+ansible-playbook ~/smartvillage-operator/apply-iotagentjson.yaml \
+  -e ansible_operator_meta_namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace) \
+  -e crd_path=~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
+echo DONE
+
+== Your smart city
+
+Congratulations, you have now got your smart devices registered with an agent so that we can communicate with with these devices and collect and use data in the context broker.
+
+What's next?
+
+=== Observing the data you are collecting.
+
+Simulating activity is critical to test improvements and determine what will be effective at achieving your intended goals and cost efficient to implement. Out next labs will start down this process
+
+=== Analytics & AIML
+
+Analytics derived from smart city data and sensors can significantly enhance the quality of life for citizens in various ways.
+
+The Openshift AI platform that can be  deployed with Openshift Container Platform is a critical enabler of a complete analytic workflow process by allowing these simulations to drive experiments, collect the results, and detect and check for potential errors or biases (which is essential anytime you are working with simulated data) 
+
+=== Other domains
+
+We are focused on traffic scenarios ad that is what these devices provide data for. But smart cities have to leverage a lot of other data types and integrate these. In concert, e NSGI-lD data models and the FIWARE platform encompass many of these domains
+
