@@ -2,5 +2,30 @@
 
 == What you accomplished
 
+In this lab workshop,you should have developed an understanding of how to build a smart city  with edge device data in a hybrid cloud environment, including:
+
+* Smart device registration with FIWARE IoT open source microservices
+* Sending message data that fits existing open source Smart Data Model schemas for counting vehicles, pedestrians, and changing traffic conditions
+* Event-driven subscriptions to smart device data changes
+* Sharing data securely between the Edge and the Cloud Custom dashboards for visualizing live GeoJson data on maps with Quarkus and Leaflet.js
+* We will also demo how device registration and data subscriptions work on a real smart device running Red Hat Device Edge to publish data to the New England Research Cloud OpenShift environment.
+
+== Building a smart city with Red Hat
+
+In the introduction, we noted that information communications technology is a critical input to building a smarter city. This workshop as intended to provide a glipse into how to implement some of the necessary elements, lets see how we did this with Red Hat:
+
+* *Integrated Information Systems:* Improve efficiency and service delivery by tying together normally separate data and systems. We have seen how the components of the FiWARE ecosystem, open source data and service, and enterprise class hybrid cloud platforms can be leveraged to deploy, manage, and integrate the necessary infrastructure to build a smart city.
+
+* *Digital Infrastructure:* The deployment of sensors and connected devices that gather data from the urban environment via high-speed communication networks, data centers, and cloud storage facilities. This workshop was build on modern cloud-native technologies and architectures including middleware, messaging services, container management, and cloud infrastructure. You may not have noticed this during the course of the workshop as much -- because the best infrastructure is like plumbing and if done well, it just works: we don't need to see or even know it is there. You probably still need (other) people to install the physical sensors.
+
+* *Data Analytics:* Analyzing data collected from various sensors and devices to monitor and manage traffic and transportation systems, power plants, utilities, water supply networks, waste management, information systems, schools, libraries, hospitals, and other community services. The demo of the live NERC research cloud instance of the Smart Village platform shows the use of a fully built-out digital twin and simulations that researchers can use to design and run experiments. This workshop did not attempt to build its own complete digital twin or apply advanced analytic techniques like AIML -- but we did make use of the the Openshift AI platform. It provides the necessary, integrated MLOps tools to make your data scientists that _do_ build these models more effective.  
+
+* *Citizen Engagement:* Enhanced interaction between the city and its citizens, often through technology such as mobile apps and portals, for convenient access to information and services conveniently and provide feedback on urban issues. Unfortunately, we can't show everything in a simple workshop like this - but the Openshift Container Management Platform is a full featured, hybrid cloud application tool. It uses modern cloud native and DevSecOps approaches to enable you to build, deploy, and secure these mobile and portal applications, service these with live data from your integrated sensors and analytic services. 
+
+* *Governance and Policy:* Efficient governance models promote transparency and efficiency. This includes regulations and policies that support data security, privacy, and ethical standards in the use of technology. THe platforms this workshop is built on, like Red Hat Openshift Container Platform, help you manage 
+
+* *Public-Private Partnerships:* Building a smart city often involves collaboration between government, private sector partners, non-profits, and academic institutions to fund and implement technology solutions. At Red Hat, we believe link:https://www.redhat.com/en/book-of-red-hat[collaboration through Open Source] is the best way to achieve this.
+
 == Next steps
+
 

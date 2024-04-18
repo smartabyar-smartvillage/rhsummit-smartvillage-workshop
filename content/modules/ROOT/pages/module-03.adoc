@@ -1,4 +1,6 @@
 = Smart devices
+:source-highlighter: rouge
+:docinfo: shared
 
 In this module we will set up some smart devices in your smart city.
 
@@ -16,7 +18,7 @@ GeoJson is also a standard data format -- a huge advantage for integrating smart
 Open a new tab in your web browser and navigate to https://geojson.io .
 
 .The geojson.io interface with a user manipulatable globe and a pane with associated object data
-image::_images/create-geojson-home.png["The geojson.io interface with a user manipulatable globe and a pane with associated object data"]
+image::_images/create-geojson-home.png[The geojson.io interface with a user manipulatable globe and a pane with associated object data]
 
 Here you will see the basic interface for geojson.io and it shows a globe which you can manipulate with your mouse or with your keyboard (arrow keys to move/rotate and +/- to zoom in and out). You will need vision and your mouse to draw some objects; please contact a lab facilitator if you need assistance with this process or have accessibility concerns. You've need to grab several coordinates from this to complete our intersection -- so keep this map and browser tab opened and the map centered on your chosen location.
 
@@ -33,12 +35,14 @@ There should be one for each road near the intersection where a traffic light sh
 Then for each traffic camera, create a polygon indicating its field of view: typically the road or lane next to the placement of the camera itself.
 
 .Camera locations and fields of view for the example intersection
-image::_images/intersection-object-locations-0001.png["Camera locations and fields of view for the example intersection"]
+image::_images/intersection-object-locations-0001.png[Camera locations and fields of view for the example intersection]
 
 When completed, the GeoJson.io tool will create the necessary data object, already encoded for you.
 We'll need this data for our next exercise.
 
 An example of the of the completed geojson generated for you.
+
+[,json,highlight=9..30]
 ----
 {
   "type": "FeatureCollection",
@@ -46,7 +50,18 @@ An example of the of the completed geojson generated for you.
     {
       "type": "Feature",
       "properties": {},
-      "geometry": {
+      "geometry":
+----
+
+
+[IMPORTANT]
+====
+For this, you will need to extract only *this portion, or a even single set of coordinates* -- the geometry associated with the object and not the wrapping `FeatureCollection` or `Feature`
+====
+
+[,json,highlight=9..30]
+----
+       {
         "coordinates": [
           [
             [
@@ -73,6 +88,11 @@ An example of the of the completed geojson generated for you.
         ],
         "type": "Polygon"
       }
+----
+
+
+[,json,highlight=9..30]
+----
     }
   ]
 }
@@ -80,7 +100,7 @@ An example of the of the completed geojson generated for you.
 
 If you need assistance with this portion of the lab, for example using the geojson tool or accessibility accommodations drawing or creating these objects, please contact a workshop facilitator.
 
-Completion of this exercise is not required for later portions of the lab.
+Completion of this exercise is not required for later portions of the lab. 
 
 == Create the Smart Village objects
 
@@ -149,11 +169,11 @@ spec:
 
 ----
 
-*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`.
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 
-. Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
 
-the TrafficFlowObserved
+NOTE: 
+Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
 
 === Create your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
 
@@ -228,7 +248,7 @@ spec:
 
 *Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
 
-. Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
+NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
 
 === Create your `CrowdFlowObserved` (s)
@@ -306,7 +326,7 @@ spec:
 
 *Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
 
-. Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
+NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
 == Your smart city
 

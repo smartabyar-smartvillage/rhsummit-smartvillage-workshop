@@ -7,7 +7,7 @@ nav:
 
 asciidoc:
   attributes:
-    lab_name: "I'm the lab_name var"
+    lab_name: "Visualizing Live Traffic Data from the Edge to the Cloud"
     release-version: master
     page-pagination: true
     my_var: "foo"
