@@ -37,7 +37,7 @@ Don't feel limited to stick to these domains, you can create your own smart data
 
 == The Smart Village IoT Agent
 
-If you are curious what the IoTAgentJson custom resource definition looks like that we are using, run the command below in your showroom terminal:
+If you are curious what the IoTAgentJson custom resource definition looks like that we are using, run the command below in your workbench terminal:
 
 ----
 cat ~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
@@ -58,7 +58,7 @@ Here are some useful things to note about the configuration of the IoT Agent JSO
 
 * The `resources:` definition defines the memory and CPU requests and limits for our IoT Agent JSON pod. We have to keep this lower than for a production deployment because this lab usesa shared smrt cities platform for running Smart Village services. 
 
-For more information about the IoTAgentJson custom resource definition, [see the full IoTAgentJson schema here](https://github.com/smartabyar-smartvillage/smartvillage-operator/blob/main/config/crd/bases/smartvillage.computate.org_iotagentjsons.yaml).
+For more information about the IoTAgentJson custom resource definition, link:https://github.com/smartabyar-smartvillage/smartvillage-operator/blob/main/config/crd/bases/smartvillage.computate.org_iotagentjsons.yaml[see the full IoTAgentJson schema here].
 
 As note, many of the smart village platform components are already deployed for you, but run this command in your terminal to check and confirm 
 
@@ -76,7 +76,7 @@ In the last exercise, you found and created some smart devices, and hopefully th
 * at least one *traffic light* which you should have saved the geojson encoding for
 * at least one *traffic light observed* which you should have saved the geojson encoding for
 
-We will create these corresponding ojects and register these with our IoT agent.
+We will create these corresponding objects and register these with our shared environment now.
 
 === Register your `SmartTrafficLight` (s)
 

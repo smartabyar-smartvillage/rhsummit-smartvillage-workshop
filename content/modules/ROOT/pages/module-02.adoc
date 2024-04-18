@@ -32,13 +32,15 @@ image::_images/install-workbench-ready.png[Your ready Python Workbench running i
 
 A Jupyter Notebook is an interactive, online notebook, and the primary content of this module be found in the Jupyter Notebook.
 
-* In your workbench, make sure your left sidebar is open. If it’s not, press [ Ctrl ] + [ b ].
+. In your workbench, make sure your left sidebar is open. If it’s not, press [ Ctrl ] + [ b ].
 
-* Navigate to folder `workshop-files` in the workbench file navigator.
+. Navigate to folder `workshop-files` in the workbench file navigator.
 
-* Open the first Notebook `install-prerequisities.ipynb` and follow the instructions from there.
+. Open the first Notebook `install-prerequisities.ipynb` and follow the instructions from there.
++
+TIP: Most commands will echo `DONE` when successful. If not, you may see Ansible failures `failures: N`. Don't fret, if you encounter these in unexpected places, flag a facilitator for help.
 
-* Then Open the first Notebook `deploy-microservices.ipynb` and follow the instructions from there. 
+. Then Open the first Notebook `deploy-microservices.ipynb` and follow the instructions from there. 
 
 
 IMPORTANT: 
@@ -48,7 +50,8 @@ When you finish with these notebooks, return here.
 
 The following technologies that we will be using during this workshop include
 
-               openshift-ai-code-generation-topology.png
+image::_images/create-geojson-home.png[The geojson.io interface with a user manipulatable globe and a pane with associated object data]
+
 image::_images/openshift-ai-code-generation-topology.png[Smart Device API Code Generation with AI/ML Topology]
 
 * *MongoDB*
