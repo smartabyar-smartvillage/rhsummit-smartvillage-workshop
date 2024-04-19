@@ -4,8 +4,9 @@
       
 ### precreate user projects so we can apply permissions model
 
+
 ## create all the expected projects that we will need
-for usernumber in $(seq 2 3); do {
+for usernumber in $(seq 1 10); do {
 	username=user${usernumber} ;
 	userproject=${username}-city ;
 	userworkspace=${username}-workbench ;
@@ -18,7 +19,7 @@ for usernumber in $(seq 2 3); do {
 } done
 
 
-for usernumber in $(seq 1 5); do {
+for usernumber in $(seq 1 10); do {
 username=user${usernumber} ;
 userproject=${username}-city ;
 userworkspace=${username}-workbench ;
