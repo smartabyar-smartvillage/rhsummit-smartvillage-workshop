@@ -102,9 +102,9 @@ First thing you should do is navigate to the starting page for your user —�
 .Your initial showroom environment
 image::_images/intro-lab-initial-user-showroom.png["Your initial showroom environment"]
 
-TIP: We also recommend logging into the terminal in this showroom environment; you may be asked to run command in this during the course of your workshop. In this terminal enter {login_command} to login.
+TIP: We also recommend logging into the terminal in this showroom environment; you may be asked to run command in this during the course of your workshop. In this terminal enter `{login_command}` to login.
 
-Then log into your link:{openshift_console_url}["OpenShift Container Platform web console"]. Your user name is `{user}` and your password is `openshift`  .
+Then log into your link:https://{openshift_console_url}[OpenShift Container Platform web console]. Your user name is `{user}` and your password is `openshift`  .
 
 == Accessing OpenShift AI
 
@@ -112,18 +112,32 @@ In the OpenShift Console, click on the  image:_images/100002010000003000000024AA
 
 Once you are in OpenShift AI, click on the menu button image:_images/100002010000002E000000216426608B65255A13.png[the menu button] in the left navigation pane, and locate and then click on the image:_images/10000201000000B200000027F58611BB363F3154.png[the data science projects button].
 
-If you are presented with a screen stating `No data science projects yet` , its your first time here and we will need to create a new project for you, select the image:_images/intro-create-data-science-project.png[Create data science project]. Name this project `{user}-city`. If you want to add creativity, do so in the description!
+IMPORTANT: The project selection is non-standard; read these instructions carefully
 
-Create a new OpenShift AI Workbench by click image:_images/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This will help you to stay consistent with the rest of the lab.
+If you are presented with a screen stating `No data science projects yet` , *DO NOT* select the Create data science project button
+
+.
+image::_images/intro-create-data-science-project.png[Create data science project button]
+
+Your project has already been created for you. You will need to select:
+
+image::_images/install-datascience-projects.png[ the project type selector ]
+
+and then
+
+image::_images/install-datascience-all-projects.png[ the All project option ]
+
+You should see a number of projects shown; find the project `{user}-city` and select this project.
+
+Create a new OpenShift AI Workbench by click image:_images/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This *is required* for you to stay consistent with the rest of the lab.
 
 For Image selection, choose image:_images/100002010000007B0000003FA29A900E8890D587.png[Minimal Python]. You can leave the rest of the fields as the default. At the very bottom, click image:_images/1000020100000091000000211148800178F97C50.png[the Create Workbench button] .
 
 After a minute or two, you should see the workbench change from image:_images/10000201000000460000002FDF0FBBBC61A6E1C5.png[starting] to image:_images/100002010000003A00000030BD8223197D20CCFD.png[running] .
 
-Once `running`, you should be able to access your OpenShift AI Workbench by clicking on the image:_images/100002010000004200000023E46306A5CE3ADC98.png
-[open] link to open your new OpenShift AI Workbench.
+Once `running`, you should be able to access your OpenShift AI Workbench by clicking on the image:_images/100002010000004200000023E46306A5CE3ADC98.png[open] link to open your new OpenShift AI Workbench.
 
-If presented with an authorization request, you will need to authorize yourself access to your workbench. Click  image:_images/[ the Log in with OpenShift ] button to proceed.
+If presented with an authorization request, you will need to authorize yourself access to your workbench. Click  image:_images/10000201000000A000000020B028AB197DEBE3A3.png[the Log in with OpenShift ] button to proceed.
 
 Helpful tips for running the commands in this notebook
 There are several commands that are written into this notebook that can be run directly in the notebook.
@@ -140,12 +154,11 @@ NOTE: We recommend leaving this terminal open during the this lab. You will be a
 == Acronyms used in this lab 
 
 The following acronyms are used in this lab
-NOTE: to be populated after all content is readys
 
 .Acronyms used in this lab 
 |===
 |	Acronym |	Meaning/Concept		| Learn More
-| NERC 		| New England Research Cloud								| 
+| NERC 		| New England Research Cloud								| link:https://nerc.mghpcc.org/[About the New England Research Cloud]
 | FIWARE 	| Future Internet -WARE; a curated framework of Open Source Platform components to accelerate the development of Smart Solutions | link:fiware.org[About FiWARE]
 | NGSI-LD 	| Next Generation Service Interface for Linked Data 	| link:https://en.wikipedia.org/wiki/NGSI-LD[About NGSI-LD on wikipedia]
 | JSON-LD 	| JavaScript Object Notation for Linked Data			| link:https://en.wikipedia.org/wiki/JSON-LD[About JSON-LD on wikipedia]

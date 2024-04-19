@@ -1,0 +1,47 @@
+
+      
+      
+      
+### precreate user projects so we can apply permissions model
+
+## create all the expected projects that we will need
+for usernumber in $(seq 2 3); do {
+	username=user${usernumber} ;
+	userproject=${username}-city ;
+	userworkspace=${username}-workbench ;
+	oc new-project ${userproject};
+	oc new-project ${userworkspace};
+	oc create rolebinding ${username}-admin --role=admin -n ${userproject}  ;
+	oc create rolebinding ${username}-workspace-admin --role=admin -n ${userworkspace}  ;
+	oc create rolebinding ${username}-clusteradmin --clusterrole=admin --user=${username} --namespace=${userproject} ;
+	oc create rolebinding ${username}-workspace-clusteradmin --clusterrole=admin --user=${username} --namespace=${userworkspace} ;
+} done
+
+
+for usernumber in $(seq 1 5); do {
+username=user${usernumber} ;
+userproject=${username}-city ;
+userworkspace=${username}-workbench ;
+echo "Updating permissions for ${username}" using project ${userproject} and ${userworkspace} ;
+echo -n "--> Creating View privileges to shared project ";
+oc create rolebinding viewer-${username} --clusterrole=view --user=${username} --namespace=smartvillage && echo "OK" || echo "...FAILED";
+echo -n "--> Creating service account edit privileges to users project ";
+oc -n ${userproject} create rolebinding ${username}-edit --clusterrole=edit --serviceaccount=${userproject}:${username} && echo "OK" || echo "...FAILED";
+echo -n "--> Creating service account edit privileges to users workspace ";
+oc -n ${userproject} create rolebinding ${userworkspace}-edit --clusterrole=edit --serviceaccount=${userproject}:${userworkspace} && echo "OK" || echo "...FAILED";
+echo -n "--> Creating role to allow future rolebinding changes for the service account ";
+oc -n ${userproject} create role ${username}-edit-rolebindings --verb=get,list,watch,create,update,patch,delete --resource=roles,rolebindings && echo "OK" || echo "...FAILED";
+echo -n "--> Creating service account edit privileges to users project ";
+oc -n ${userproject} create rolebinding ${username}-edit-rolebindings --role=${username}-edit-rolebindings --serviceaccount=${userproject}:${username} && echo "OK" || echo "...FAILED";
+echo -n "--> Creating service account edit privileges to users workspace ";
+oc -n ${userproject} create rolebinding ${userworkspace}-edit-rolebindings --role=${username}-edit-rolebindings --serviceaccount=${userproject}:${userworkspace} && echo "OK" || echo "...FAILED";
+} done
+
+
+for usernumber in $(seq 2 5); do {
+	username=user${usernumber} ;
+	userproject=${username}-city ;
+	userworkspace=${username}-workbench ;
+	oc delete project ${userproject} ; 
+	oc delete project ${userworkspace} ;
+} done

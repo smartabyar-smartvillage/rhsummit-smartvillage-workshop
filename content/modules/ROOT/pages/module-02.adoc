@@ -1,14 +1,17 @@
 = Installation and Prerequisites
 
-
-
 == Deploy the smart city components
 
-From the first lab module, you should have logged into your Openshift AI platform workbench. 
+This section of the lab will install and deploy the primary components needed to build a smart city platform's digital infrastructure. You will be deploying the same components that researchers are using today for smart cities applications. Its the same platform that is deployed into the New England Research Cloud which supports for the real world city of Veberöd, Sweden, called link:www.smartabyarsmartvillage.org/[Smarta Byar], which translates to smart villages in English. As a result you will see the phrase "Smart Village" often today!
+
+.Veberöd 3D digital twin. Image source: Jan Malmgren
+image:_images/RHRQ-4_2-Craig-Smart-Village-3D-digital-twin1200x675-1024x576.jpeg[Veberöd 3D digital twin. Image source: Jan Malmgren] 
+
+The components that we are about to deploy work with and deploy to Openshift Container Platform and thus work across the wide range of computing platforms available -- NERC uses a combination of Openshift on Openstack, while this lab is deployed to (probably) on Openshift on Amazon Web Services (AWS). Openshift on bare metal, virtualization hosts, and other compute bases are all possible.
 
 == Using an OpenShift AI Python Workbench
 
-In this lab, we will be making use of the Openshift AI workbench to create our application using Ansible Automation that allows us to easily customize a standard deployment to your specific project's namespace and permissions.  Openshift AI already has the python oriented development tools but we will need to install additional components in order to make this process work, and a jupyter notebook that helps you walk through and undestand the process.
+From the first lab module, you should have logged into your Openshift AI platform workbench.  In this lab, we will be making use of the Openshift AI workbench to create our application using *Ansible* automation that allows us to easily customize a standard deployment to your specific project's namespace and permissions.  Openshift AI already has the python oriented development tools but we will need to install additional components in order to make this process work, and a jupyter notebook that helps you walk through and undestand the process.
 
 === Clone the workshop git repository
 
@@ -50,9 +53,9 @@ When you finish with these notebooks, return here.
 
 The following technologies that we will be using during this workshop include
 
-image::_images/create-geojson-home.png[The geojson.io interface with a user manipulatable globe and a pane with associated object data]
+.The resulting smart village component topology
+image::_images/openshift-smart-village-topology.png[Smart village component Topology]
 
-image::_images/openshift-ai-code-generation-topology.png[Smart Device API Code Generation with AI/ML Topology]
 
 * *MongoDB*
 +
@@ -124,6 +127,15 @@ By following these NGSI-LD standards, and putting a context broker into your sys
 
 Your Scorpio Context Broker is in your namespace and you can we will take a closer look at it and then test to make sure it is working as we expect it to. We will use this context broker later in this lab.
 
+=== the FiWARE platform
+
+The context broker we are using, along with other select components, come from FiWARE With over 400 members at the time of writing, FIWARE has curated a framework of partners able to deliver data across a range of domains, from cities to utilities, manufacturing, and agrifood, with more being added all the time. THe suite of components that FiWare offers to match the needs of a smart city is extensive.
+
+.An example of the possible data collection and analytics sources for a smart village using the FIWARE context broker. Image source: FIWARE
+image:_images/smart-village-3d-digital-twin.png[Veberöd 3D digital twin. Image source: Jan Malmgren] 
+
+You'll note in this architecture, the central nature of the context broker. We'll revisit this later in this lab.
+
 == Your smart city
 
 Congratulations, you have the foundational integration infrastructure so you can start. The assets you have in place are just the start, aimed at laying the integration necessary to connect smart devices and other tools that can use these such as monitoring, mapping, or analytics.
@@ -134,7 +146,7 @@ What's next?
 
 The platform and tools here are generic microservices, though put to specific use in this workshop. But the same infrastructure can be used for other services, tools, and platforms. Your future development and operations
 
-=== Secuity, Governance, and -ilities
+=== Security, Governance, and -ilities
 
 We've deployed our microservices mostly with an eye to simplicity and enabling connectivity. As your smart cities platforms moves into production, you need to start protecting your infrastructure and the data and services it uses and provides. Fortunately, Red Hat Openshift Container Platform is ready with more advanced security with link:https://access.redhat.com/products/red-hat-advanced-cluster-security-for-kubernetes[Red Hat Advanced Cluster Security], enabling advanced patterns like link:https://www.redhat.com/en/resources/zero-trust-openshift-platform-plus-brief[Zero Trust] and advanced management capabilities with link:https://access.redhat.com/products/red-hat-advanced-cluster-management-for-kubernetes/[Red Hat Advanced Cluster Management].
 
