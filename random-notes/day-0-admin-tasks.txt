@@ -23,12 +23,12 @@ username=user${usernumber} ;
 userproject=${username}-city ;
 userworkspace=${username}-workbench ;
 echo "Updating permissions for ${username}" using project ${userproject} and ${userworkspace} ;
-echo -n "--> Creating View privileges to shared project ";
+echo -n "--> Allow manipulation of certain objects";
 oc create rolebinding viewer-${username} --clusterrole=view --user=${username} --namespace=smartvillage && echo "OK" || echo "...FAILED";
 echo -n "--> Creating service account edit privileges to users project ";
 oc -n ${userproject} create rolebinding ${username}-edit --clusterrole=edit --serviceaccount=${userproject}:${username} && echo "OK" || echo "...FAILED";
-echo -n "--> Creating service account edit privileges to users workspace ";
-oc -n ${userproject} create rolebinding ${userworkspace}-edit --clusterrole=edit --serviceaccount=${userproject}:${userworkspace} && echo "OK" || echo "...FAILED";
+echo -n "--> Creating service account admin privileges to users workspace ";
+oc -n ${userproject} create rolebinding ${userworkspace}-admin --clusterrole=admin --serviceaccount=${userproject}:${userworkspace} && echo "OK" || echo "...FAILED";
 echo -n "--> Creating role to allow future rolebinding changes for the service account ";
 oc -n ${userproject} create role ${username}-edit-rolebindings --verb=get,list,watch,create,update,patch,delete --resource=roles,rolebindings && echo "OK" || echo "...FAILED";
 echo -n "--> Creating service account edit privileges to users project ";
@@ -37,11 +37,3 @@ echo -n "--> Creating service account edit privileges to users workspace ";
 oc -n ${userproject} create rolebinding ${userworkspace}-edit-rolebindings --role=${username}-edit-rolebindings --serviceaccount=${userproject}:${userworkspace} && echo "OK" || echo "...FAILED";
 } done
 
-
-for usernumber in $(seq 2 5); do {
-	username=user${usernumber} ;
-	userproject=${username}-city ;
-	userworkspace=${username}-workbench ;
-	oc delete project ${userproject} ; 
-	oc delete project ${userworkspace} ;
-} done

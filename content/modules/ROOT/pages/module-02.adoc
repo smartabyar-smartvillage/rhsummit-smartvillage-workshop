@@ -15,11 +15,15 @@ From the first lab module, you should have logged into your Openshift AI platfor
 
 === Clone the workshop git repository
 
-The necessary automation for this process is available in the same source repository this lab is located in. In a terminal and with git, we clone the course materials to the default home directory (/opt/app-root/src) of your workbench. *It is recommended* that you use a terminal from the workbench using the process described in the previous model -- it will already be in the correct workspace and the content will be placed in the expected container.
+The necessary automation for this process is available in the same source repository this lab is located in. In a terminal and with git, we clone the course materials to the default home directory (/opt/app-root/src) of your workbench. *It is recommended* that you use a terminal from the workbench using the process described in the previous model -- it will already be in the correct workspace and the content will be placed in the expected container. It is also necessary to be logged into the correct user and project in the workbench.
 
 TIP: If this asks you for authentication, enter your GitHub username and password. 
 
 ----
+{login_command}
+
+oc project {user}-city
+
 git clone https://github.com/smartabyar-smartvillage/rhsummit-smartvillage-workshop.git
 
 ln -s rhsummit-smartvillage-workshop/content/modules/ROOT/assets/notebooks workshop-files
@@ -119,7 +123,7 @@ Because its a central component to the FiWARE smart cities, we'll take a little 
 
 The jobs of a context broker are to query the state of a smart device, perform an action on a device, or update the state of a device. Smart cities need open data and open source context brokers to avoid being locked into a single device provider. Cities are built over a long course of time -- maybe even over centuries or millennia; and while smart devices probably will not last that long they will be rolled out in stages as services modernize, technologies mature, new city management challenges arise, or citizens demand more from their existing services. Phases or roll outs will undoubtably come from different IT and infrastructure vendors utilizing an array of technology implementations. Only with open standards for the data, the data formats, and the implementations that handle these data can we hope to integrate the huge diversity we expect to encounter .
 
-A context broker receives messages from smart devices to update the device state, or perform some kind of action on the device. FiWARE provides several compatiable implementations, and for this lab we will use the Scorpio Context Broker which provides a REST API that is based on the NGSI-LD standard for smart device data with many features. You can find the full [NGSI-LD API Operation Definition in section 5 of this PDF]. NGSI-LD stores entities as the primary data stored. Entities can be any data representing any Smart Device Model data in the world.  You can create your own smart data models and follow the NGSI-LD specification to confirm to all the latest open standards for managing smart device data.
+A context broker receives messages from smart devices to update the device state, or perform some kind of action on the device. FiWARE provides several compatiable implementations, and for this lab we will use the Scorpio Context Broker which provides a REST API that is based on the NGSI-LD standard for smart device data with many features. You can find the full link:https://www.etsi.org/deliver/etsi_gs/CIM/001_099/009/01.04.01_60/gs_cim009v010401p.pdf[NGSI-LD API Operation Definition in section 5 of this PDF]. NGSI-LD stores entities as the primary data stored. Entities can be any data representing any Smart Device Model data in the world.  You can create your own smart data models and follow the NGSI-LD specification to confirm to all the latest open standards for managing smart device data.
 
 A sample of what the context broker can do is creating, updating, and deleting entities, creating, updating, and deleting attributes within those entities, querying entities and attributes, and subscribing to entity data changes in other applications through REST webhooks or messages.
 
@@ -127,14 +131,18 @@ By following these NGSI-LD standards, and putting a context broker into your sys
 
 Your Scorpio Context Broker is in your namespace and you can we will take a closer look at it and then test to make sure it is working as we expect it to. We will use this context broker later in this lab.
 
+
 === the FiWARE platform
 
 The context broker we are using, along with other select components, come from FiWARE With over 400 members at the time of writing, FIWARE has curated a framework of partners able to deliver data across a range of domains, from cities to utilities, manufacturing, and agrifood, with more being added all the time. THe suite of components that FiWare offers to match the needs of a smart city is extensive.
 
 .An example of the possible data collection and analytics sources for a smart village using the FIWARE context broker. Image source: FIWARE
-image:_images/smart-village-3d-digital-twin.png[Veberöd 3D digital twin. Image source: Jan Malmgren] 
+image:_images/fiware-architecture.png[the FIWARE context broker. Image source: FIWARE] 
 
-You'll note in this architecture, the central nature of the context broker. We'll revisit this later in this lab.
+You'll note in this architecture, the central nature of the context broker. We'll revisit this later in this lab. But there are many other options for context brokers, for example the Orion context broker
+
+.The Orion is another option for NGSI-LD context brokers
+image::_images/orion-context-broker.png[The Orion is another option for NGSI-LD context brokers]
 
 == Your smart city
 

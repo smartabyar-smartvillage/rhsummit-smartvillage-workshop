@@ -1,6 +1,6 @@
 = IoT Agents
 
-Actual IoT devices are simulated in the lab via an *IoT Agent* a small piece of software that will provide the inteface for simluated devices to interact with the smart village platform.
+Actual IoT devices are simulated in the lab via an *IoT Agent* a small piece of software that will provide the inteface for real or simulated devices to interact with the smart village platform.
 
 An IoT Agent receives messages from smart devices to update the device state, or perform some kind of action on the device. The IoT Agent is a reactive application that can:
 
@@ -60,13 +60,17 @@ Here are some useful things to note about the configuration of the IoT Agent JSO
 
 For more information about the IoTAgentJson custom resource definition, link:https://github.com/smartabyar-smartvillage/smartvillage-operator/blob/main/config/crd/bases/smartvillage.computate.org_iotagentjsons.yaml[see the full IoTAgentJson schema here].
 
-As note, many of the smart village platform components are already deployed for you, but run this command in your terminal to check and confirm 
+As note, many of the smart village platform components are already deployed for you, but run these command in your showroom terminal to check and confirm.
+
+TIP: Check that you are in the right project and logged in via the showroom terminal. 
 
 ----
+oc whoami
+oc project
 oc get pod -l app.kubernetes.io/instance=iotagent-json
 oc wait pod -l app.kubernetes.io/instance=iotagent-json --for=condition=Ready --timeout=2m
 oc get pod -l app.kubernetes.io/instance=iotagent-json
-echo DONE
+
 ----
 
 == Registering your smart devices with the agent
@@ -80,19 +84,91 @@ We will create these corresponding objects and register these with our shared en
 
 === Register your `SmartTrafficLight` (s)
 
+BY using the CRDs in the last lab, the smart village operator has already registered these devices for you. Note however, that these devices are listening to and connected to our shared smart village operator instance and not your own.
+
+----
+oc get SmartTrafficLight
+----
+
 === Register your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
 
-ansible-playbook ~/smartvillage-operator/apply-iotagentjson.yaml \
-  -e ansible_operator_meta_namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace) \
-  -e crd_path=~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
-echo DONE
+----
+oc get TrafficFlowObserved
+----
 
 === Register your `CrowdFlowObserved` (s)
 
-ansible-playbook ~/smartvillage-operator/apply-iotagentjson.yaml \
-  -e ansible_operator_meta_namespace=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace) \
-  -e crd_path=~/smartvillage-operator/kustomize/overlays/sandbox/iotagentjsons/iotagent-json/iotagentjson.yaml
-echo DONE
+----
+oc get CrowdFlowObserved
+----
+== The role of Context information
+
+While we were created these objects, lets take a moment to look a little more closely as what we are creating.
+
+If you recall back to an earlier lab, notice in particular potions of the object definitions such as 
+
+
+----
+ ngsi_ld:
+    service: trafficflowobserveds
+    service_path: /Sweden/Veberod/CityCenter
+    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+----
+
+Taking a look at this data in more detail, execute this in your showroom terminal:
+
+----
+curl https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+----
+
+You should see there are a number entries provided in this object
+
+----
+    "customMaxGreenTime" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficFlowObserved/attributes/customMaxGreenTime.md",
+    "customAverageVehiclesPerMinute" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficFlowObserved/attributes/customAverageVehiclesPerMinute.md",
+    "customDemandScalingFactor" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficFlowObserved/attributes/customDemandScalingFactor.md",
+    "customQueueLengthThreshold" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficFlowObserved/attributes/customQueueLengthThreshold.md",
+    "TrafficSimulation" : "smartvillage:TrafficSimulation",
+    "startDateTime" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/startDateTime.md",
+    "simulationName" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/simulationName.md",
+    "fcdFilePath" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/fcdFilePath.md",
+    "netFilePath" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/netFilePath.md",
+    "startSeconds" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/startSeconds.md",
+    "endSeconds" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/endSeconds.md",
+    "stepSeconds" : "https://github.com/computate-org/smartabyar-smartvillage-static/blob/main/fiware/TrafficSimulation/attributes/stepSeconds.md",
+----
+
+Each is a *reference* to the type of contextual data that the encapsulating object may be related to and the data model that describes the relationship. However, it does not specify a specific instance of each contextual data -- it is up an application in use to check for the presence  of potentially relevant contextual data -- potentially retrieving entity specific information from a context broker.
+
+For example, a the context may be information about the road at the intersection:
+
+----
+curl https://smart-data-models.github.io/dataModel.Transportation/Road/examples/example.jsonld
+----
+
+You should see something like:
+----
+{
+  "id": "urn:ngsi-ld:Road:Spain-Road-A62",
+  "type": "Road",
+  "alternateName": "E-80",
+  "description": "Autov\u00eda de Castilla",
+  "length": 355,
+  "name": "A-62",
+  "refRoadSegment": [
+    "urn:ngsi-ld:RoadSegment:Spain-RoadSegment-A62-0-355-forwards",
+    "urn:ngsi-ld:RoadSegment:Spain-RoadSegment-A62-0-355-backwards"
+  ],
+  "responsible": "Ministerio de Fomento - Gobierno de Espa\u00f1a",
+  "roadClass": "motorway",
+  "@context": [
+    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+    "https://raw.githubusercontent.com/smart-data-models/dataModel.Transportation/master/context.jsonld"
+  ]
+}
+----
+
+Bringing this data together can have a powerful impact. For example, a street lamp and a bus have two very different contexts, yet if the street lamp “knows” where the bus is, it can switch on as the bus arrives, allowing passengers to see better as they alight. The lamppost could provide direction information, local news and events, and a WiFi hotspot, remaining illuminated until all the passengers have left its coverage zone, switching off to save energy. 
 
 == Your smart city
 
@@ -102,7 +178,7 @@ What's next?
 
 === Observing the data you are collecting.
 
-Simulating activity is critical to test improvements and determine what will be effective at achieving your intended goals and cost efficient to implement. Out next labs will start down this process
+Simulating activity is critical to test improvements and determine what will be effective at achieving your intended goals and cost efficient to implement. Out next labs will start down this process.
 
 === Analytics & AIML
 
@@ -112,5 +188,5 @@ The Openshift AI platform that can be  deployed with Openshift Container Platfor
 
 === Other domains
 
-We are focused on traffic scenarios ad that is what these devices provide data for. But smart cities have to leverage a lot of other data types and integrate these. In concert, e NSGI-lD data models and the FIWARE platform encompass many of these domains
+We are focused on traffic scenarios ad that is what these devices provide data for. But smart cities have to leverage a lot of other data types and integrate these. In concert, e NSGI-lD data models and the FIWARE platform encompass many of domains of interest to a smart city manager (thats you!).
 

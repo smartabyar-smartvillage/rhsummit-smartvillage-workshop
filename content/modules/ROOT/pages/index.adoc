@@ -7,11 +7,11 @@
 
 * Module 2: Installation and Prerequisites
 
-* module 3: Smart devices
+* module 3: The smart village microservice
 
 * module 4: IoT Agents
 
-* module 5: The smart village microservice
+* module 5: Smart devices 
 
 * module 6: Visualizing the scenario
 
@@ -22,3 +22,5 @@
 
 The terminal window to your right is *already* logged into the lab environment as the `{ssh_user}` user via `ssh`. 
 All steps of this lab are to be completed as the `{ssh_user}` user.
+
+You should login as an Openshift user during this course.
