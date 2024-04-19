@@ -104,7 +104,7 @@ image::_images/intro-lab-initial-user-showroom.png["Your initial showroom enviro
 
 TIP: We also recommend logging into the terminal in this showroom environment; you may be asked to run command in this during the course of your workshop. In this terminal enter `{login_command}` to login.
 
-Then log into your link:https://{openshift_console_url}[OpenShift Container Platform web console]. Your user name is `{user}` and your password is `openshift`  .
+Then log into your link:https://{openshift_console_url}[OpenShift Container Platform web console^]. Your user name is `{user}` and your password is `openshift`  .
 
 == Accessing OpenShift AI
 
