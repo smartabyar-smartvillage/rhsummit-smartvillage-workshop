@@ -50,9 +50,7 @@ TIP: Most commands will echo `DONE` when successful. If not, you may see Ansible
 
 . Then Open the Notebook `deploy-microservices.ipynb` and follow the instructions from there.
 
-
-IMPORTANT:
-When you finish with these notebooks, return here.
+IMPORTANT: When you finish with these notebooks, return here.
 
 === Technologies deployed
 
