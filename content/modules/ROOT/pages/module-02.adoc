@@ -5,7 +5,7 @@
 This section of the lab will install and deploy the primary components needed to build a smart city platform's digital infrastructure. You will be deploying the same components that researchers are using today for smart cities applications. Its the same platform that is deployed into the New England Research Cloud which supports for the real world city of Veberöd, Sweden, called link:www.smartabyarsmartvillage.org/[Smarta Byar], which translates to smart villages in English. As a result you will see the phrase "Smart Village" often today!
 
 .Veberöd 3D digital twin. Image source: Jan Malmgren
-image:_images/RHRQ-4_2-Craig-Smart-Village-3D-digital-twin1200x675-1024x576.jpeg[Veberöd 3D digital twin. Image source: Jan Malmgren] 
+image:/RHRQ-4_2-Craig-Smart-Village-3D-digital-twin1200x675-1024x576.jpeg[Veberöd 3D digital twin. Image source: Jan Malmgren]
 
 The components that we are about to deploy work with and deploy to Openshift Container Platform and thus work across the wide range of computing platforms available -- NERC uses a combination of Openshift on Openstack, while this lab is deployed to (probably) on Openshift on Amazon Web Services (AWS). Openshift on bare metal, virtualization hosts, and other compute bases are all possible.
 
@@ -17,8 +17,9 @@ From the first lab module, you should have logged into your Openshift AI platfor
 
 The necessary automation for this process is available in the same source repository this lab is located in. In a terminal and with git, we clone the course materials to the default home directory (/opt/app-root/src) of your workbench. *It is recommended* that you use a terminal from the workbench using the process described in the previous model -- it will already be in the correct workspace and the content will be placed in the expected container. It is also necessary to be logged into the correct user and project in the workbench.
 
-TIP: If this asks you for authentication, enter your GitHub username and password. 
+TIP: If this asks you for authentication, enter your GitHub username and password.
 
+[source,bash,subs="+attributes",role=execute]
 ----
 {login_command}
 
@@ -29,10 +30,10 @@ git clone https://github.com/smartabyar-smartvillage/rhsummit-smartvillage-works
 ln -s rhsummit-smartvillage-workshop/content/modules/ROOT/assets/notebooks workshop-files
 ----
 
-You may need to refresh the file browser in the python workbench; click the image:_images/install-workbench-fresh-filebrowser.png[file browser refresh button]. If successful, your should see a workbench that looks similar to:
+You may need to refresh the file browser in the python workbench; click the image:/install-workbench-fresh-filebrowser.png[file browser refresh button]. If successful, your should see a workbench that looks similar to:
 
 .Your ready Python Workbench running in Openshift AI
-image::_images/install-workbench-ready.png[Your ready Python Workbench running in Openshift AI]
+image::/install-workbench-ready.png[Your ready Python Workbench running in Openshift AI]
 
 
 === Open the course Jupyter Notebook
@@ -47,29 +48,25 @@ A Jupyter Notebook is an interactive, online notebook, and the primary content o
 +
 TIP: Most commands will echo `DONE` when successful. If not, you may see Ansible failures `failures: N`. Don't fret, if you encounter these in unexpected places, flag a facilitator for help.
 
-. Then Open the first Notebook `deploy-microservices.ipynb` and follow the instructions from there. 
+. Then Open the Notebook `deploy-microservices.ipynb` and follow the instructions from there.
 
-
-IMPORTANT: 
-When you finish with these notebooks, return here.
+IMPORTANT: When you finish with these notebooks, return here.
 
 === Technologies deployed
 
 The following technologies that we will be using during this workshop include
 
 .The resulting smart village component topology
-image::_images/openshift-smart-village-topology.png[Smart village component Topology]
+image::/openshift-smart-village-topology.png[Smart village component Topology]
 
 
-* *MongoDB*
-+
+*MongoDB*::
 A MongoDB No-SQL Database is required for FIWARE IoT Agents to store smart device registration data about each smart device in the project. Each smart device that we register in the application is stored as a record in MongoDB. We store multiple vehicle traffic camera devices, and multiple pedestrian traffic cameras as individual smart device records in the IoT Agent, which stores the data in MongoDB.
 +
 The details of how MongoDB works aren't significant for this lab, but you can link:https://www.mongodb.com/[learn more from Mongo].
-+
-* *RabbitMQ*
-+
-A message broker like RabbitMQ can receive messages from smart devices and forward them on to an IoT Agent to process the message. 
+
+*RabbitMQ*::
+A message broker like RabbitMQ can receive messages from smart devices and forward them on to an IoT Agent to process the message.
 +
 Smart devices often support sending AMQP or MQTT protocol messages. RabbitMQ supports AMQP, but the full MQTT *version 5 specification* used by FIWARE components is not yet supported in RabbitMQ, though is due to be released in RabbitMQ version 3.13, see link:https://www.rabbitmq.com/versions.html[the RabbitMQ releases] and link:https://blog.rabbitmq.com/posts/2023/07/mqtt5/[the RabbitMQ post on MQTT 5]. link:https://access.redhat.com/products/red-hat-amq-broker[Red Hat AMQ Broker] is another message broker that link:https://access.redhat.com/articles/2791941#standards-and-network-protocols-15[supports AMQP and MQTT version 5].
 +
@@ -77,47 +74,41 @@ For this lab, our service definition defines the memory and CPU requests and lim
 +
 You also will not need to know the he details of how RabbitMQ for this lab, but you can learn more from link:https://www.rabbitmq.com/[RabbitMQ].
 
-* *PostgreSQL*
-+
+*PostgreSQL*::
 A relational SQL database like PostgreSQL is required by the ScorpioBroker to store smart device context data for each smart device. We also store configurable user data like traffic simulations, simulation reports, and more in the Smart Village application with PostgreSQL.
 +
+--
 A relational database like PostgreSQL is where live persistent data in an application belongs. The Smart Village Platform uses two separate tools for storing data, including a *relational database* and a *search engine*. Some data in the Smart Village Platform is stored in the relational database as normalized data and in the search engine as denormalized data in the same database transaction.
---
-** Normalized data in the relational database is the raw input data received without any additional calculations from the input data being stored.
-+
-** Denormalized data in the search engine is based off of the normalized data in the relational database, but with additional calculations performed to make it easily queriable with all the data required for display in the API or in a graphical dashboard.
---
-+
-Some data may come from other sources, in which case it's not necessary to persist the data in the relational database and can be stored only in the search engine for retrieval in the API. PostgreSQL is the very best transactional database with support for IoT device data because it handles geolocation, unstructured, and structured data with confidence and ACID compliance. ACID compliance is a set of database characteristics consisting of Atomicity, Consistency, Isolation, and Durability that ensure that database transactions are completed efficiently. We can take advantage of PostgreSQL in the Smart Village Platform and ScorpioBroker at the same time.
-+
-PostgreSQL is a common open source database and again details of its operation aren't significant for this lab, but you can learn more from link:https://www.postgresql.org/[PostgreSQL].
 
-* *ScorpioBroker*
-+
+* Normalized data in the relational database is the raw input data received without any additional calculations from the input data being stored.
+* Denormalized data in the search engine is based off of the normalized data in the relational database, but with additional calculations performed to make it easily queriable with all the data required for display in the API or in a graphical dashboard.
+
+Some data may come from other sources, in which case it's not necessary to persist the data in the relational database and can be stored only in the search engine for retrieval in the API. PostgreSQL is the very best transactional database with support for IoT device data because it handles geolocation, unstructured, and structured data with confidence and ACID compliance. ACID compliance is a set of database characteristics consisting of Atomicity, Consistency, Isolation, and Durability that ensure that database transactions are completed efficiently. We can take advantage of PostgreSQL in the Smart Village Platform and ScorpioBroker at the same time.
+
+PostgreSQL is a common open source database and again details of its operation aren't significant for this lab, but you can learn more from link:https://www.postgresql.org/[PostgreSQL].
+--
+
+*ScorpioBroker*::
 A FIWARE Context Broker like ScorpioBroker is required for storing smart device entity data of vehicle traffic cameras and pedestrian traffic cameras in the project. It is the heart of the open data exchange that is the foundation of a smart city. _We'll dive a bit more into the ScorpioBroker in a moment._
 
-* *IoT Agent JSON*
-+
+*IoT Agent JSON*::
 A FIWARE IoT Agent like IoT Agent JSON is required for smart device registration of vehicle traffic cameras and pedestrian traffic cameras in a smart city. _We will discuss the IoT Agent later in the workshop in more detail._
 
-* *Apache Zookeeper*
-+
-A cluster manager like Apache Zookeeper is required for distributing messages and workloads to multiple pods of reactive/asynchronous microservices like Apache Solr and the Smart Village Platform. Container management platforms are able to distribute the workloads across the underlying infrastructure, and applications like 
+*Apache Zookeeper*::
+A cluster manager like Apache Zookeeper is required for distributing messages and workloads to multiple pods of reactive/asynchronous microservices like Apache Solr and the Smart Village Platform. Container management platforms are able to distribute the workloads across the underlying infrastructure, and applications like
 +
 Zookeeper is an an open source project in the Apache Foundation and you can learn more from link:https://solr.apache.org/[the Solr project itself].
 
-* *Apache Solr*
-+
+*Apache Solr*::
 An open source search engine like Apache Solr is required by the Smart Village application API to serve up API stored objects as quickly as possible. APIs that are backed by a search engine have numerous additional benefits compared to an API backed by a traditional relational database. A search engine is always indexed for the fastest data retrieval possible. The advanced data and query parsing of a search engine allows for extremely fast full text search, filtering, and sorting of the data. Search engine data can also be grouped, faceted, and pivoted on, for an advanced set of analytics and statistics on specific data in your query.
 +
 Solr is an ALSO an open source project in the Apache Foundation and you can learn more from link:https://solr.apache.org/[the Solr project itself]. Support open source organizations like Apache.
 
-* *Smart Village Platform*
-+
+*Smart Village Platform*::
 The Smart Village Platform is used by researchers to configure smart devices for improving traffic light configuration, and running on reports on traffic simulations configured at intersections in the world. FiWARE and other organizations build similar platforms and ecosystem providers that use the same common standards for other platform implementations. _We will discuss the Smart Village Platform used in this workshop in more detail._
 
 
-=== The context broker 
+=== The Context Broker
 
 Because its a central component to the FiWARE smart cities, we'll take a little more time examining the context broker.
 
@@ -132,17 +123,17 @@ By following these NGSI-LD standards, and putting a context broker into your sys
 Your Scorpio Context Broker is in your namespace and you can we will take a closer look at it and then test to make sure it is working as we expect it to. We will use this context broker later in this lab.
 
 
-=== the FiWARE platform
+=== The FiWARE platform
 
 The context broker we are using, along with other select components, come from FiWARE With over 400 members at the time of writing, FIWARE has curated a framework of partners able to deliver data across a range of domains, from cities to utilities, manufacturing, and agrifood, with more being added all the time. THe suite of components that FiWare offers to match the needs of a smart city is extensive.
 
 .An example of the possible data collection and analytics sources for a smart village using the FIWARE context broker. Image source: FIWARE
-image:_images/fiware-architecture.png[the FIWARE context broker. Image source: FIWARE] 
+image:/fiware-architecture.png[the FIWARE context broker. Image source: FIWARE]
 
 You'll note in this architecture, the central nature of the context broker. We'll revisit this later in this lab. But there are many other options for context brokers, for example the Orion context broker
 
 .The Orion is another option for NGSI-LD context brokers
-image::_images/orion-context-broker.png[The Orion is another option for NGSI-LD context brokers]
+image::/orion-context-broker.png[The Orion is another option for NGSI-LD context brokers]
 
 == Your smart city
 
@@ -157,4 +148,3 @@ The platform and tools here are generic microservices, though put to specific us
 === Security, Governance, and -ilities
 
 We've deployed our microservices mostly with an eye to simplicity and enabling connectivity. As your smart cities platforms moves into production, you need to start protecting your infrastructure and the data and services it uses and provides. Fortunately, Red Hat Openshift Container Platform is ready with more advanced security with link:https://access.redhat.com/products/red-hat-advanced-cluster-security-for-kubernetes[Red Hat Advanced Cluster Security], enabling advanced patterns like link:https://www.redhat.com/en/resources/zero-trust-openshift-platform-plus-brief[Zero Trust] and advanced management capabilities with link:https://access.redhat.com/products/red-hat-advanced-cluster-management-for-kubernetes/[Red Hat Advanced Cluster Management].
-

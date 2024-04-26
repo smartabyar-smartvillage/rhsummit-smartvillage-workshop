@@ -1,4 +1,4 @@
-= Smart devices
+= Smart Devices
 :source-highlighter: rouge
 :docinfo: shared
 
@@ -18,14 +18,14 @@ GeoJson is also a standard data format -- a huge advantage for integrating smart
 Open a new tab in your web browser and navigate to https://geojson.io .
 
 .The geojson.io interface with a user manipulatable globe and a pane with associated object data
-image::_images/create-geojson-home.png[The geojson.io interface with a user manipulatable globe and a pane with associated object data]
+image::/create-geojson-home.png[The geojson.io interface with a user manipulatable globe and a pane with associated object data]
 
 Here you will see the basic interface for geojson.io and it shows a globe which you can manipulate with your mouse or with your keyboard (arrow keys to move/rotate and +/- to zoom in and out). You will need vision and your mouse to draw some objects; please contact a lab facilitator if you need assistance with this process or have accessibility concerns. You've need to grab several coordinates from this to complete our intersection -- so keep this map and browser tab opened and the map centered on your chosen location.
 
 Spin the globe and zoom in and out to find a point of interest or use the search bar and type in the name of your favorite place. Zoom in enough to locate single traffic intersection on the map
 
 .A (not so) random intersection (eg, https://geojson.io/#map=17.1/35.658039/139.702912) and the coordinates we will be grabbing
-image::_images/intersection-location-0001.png["A (not so) random intersection (eg, https://geojson.io/#map=17.1/35.658039/139.702912) and the coordinates we will be grabbing"]
+image::/intersection-location-0001.png["A (not so) random intersection (eg, https://geojson.io/#map=17.1/35.658039/139.702912) and the coordinates we will be grabbing"]
 
 For the purposes of this lab, we'll grab several polygons and several locations for each of our smart traffic cameras.
 Use the mapping tools available in geojson.io to locate draw points in the map with the point tool.
@@ -35,7 +35,7 @@ There should be one for each road near the intersection where a traffic light sh
 Then for each traffic camera, create a polygon indicating its field of view: typically the road or lane next to the placement of the camera itself.
 
 .Camera locations and fields of view for the example intersection
-image::_images/intersection-object-locations-0001.png[Camera locations and fields of view for the example intersection]
+image::/intersection-object-locations-0001.png[Camera locations and fields of view for the example intersection]
 
 When completed, the GeoJson.io tool will create the necessary data object, already encoded for you.
 We'll need this data for our next exercise.
@@ -100,7 +100,7 @@ For this, you will need to extract only *this portion, or a even single set of c
 
 If you need assistance with this portion of the lab, for example using the geojson tool or accessibility accommodations drawing or creating these objects, please contact a workshop facilitator.
 
-Completion of this exercise is not required for later portions of the lab. 
+Completion of this exercise is not required for later portions of the lab.
 
 == Create the Smart Village objects
 
@@ -119,12 +119,12 @@ In your OpenShift Container Platform console:
 
 . Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
 
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
 `(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
 
 . Select the `(STL) SmartTrafficLight` object. Feel free to look at the tabs in the API object page, pay attention to the `Schema` and note how the `spec` matches  the comments above.
 
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
 
 . You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
 
@@ -172,7 +172,7 @@ spec:
 *Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 
 
-NOTE: 
+NOTE:
 Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
 
 === Create your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
@@ -183,12 +183,12 @@ Some of these steps may be omitted if you are still in your OpenShift Container 
 
 . Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
 
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
 `(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
 
 . *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
 
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
 
 . You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
 
@@ -253,7 +253,7 @@ NOTE:  Repeat this process for each traffic camera you created earlier in this l
 
 === Create your `CrowdFlowObserved` (s)
 
-These objects represent traffic cameras that can also detect and track pedestrian activity. We did not create these in Geojson , but you can use the same coordinates for these from the above TrafficFlowObserved objects. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets. 
+These objects represent traffic cameras that can also detect and track pedestrian activity. We did not create these in Geojson , but you can use the same coordinates for these from the above TrafficFlowObserved objects. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets.
 
 Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
 
@@ -261,12 +261,12 @@ Some of these steps may be omitted if you are still in your OpenShift Container 
 
 . Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
 
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including 	
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
 `(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
 
 . *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
 
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button. 
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
 
 . You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
 
@@ -325,11 +325,11 @@ spec:
 ----
 
 
-*Before Saving:* 
+*Before Saving:*
 
 * Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
 * Modify geolocations of these devices to match the camera geometries you defined earlier.
-* you can also update these to whatever you like 
+* you can also update these to whatever you like
 
 NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
@@ -339,7 +339,7 @@ Congratulations, you have started the process of building a smart city. The asse
 
 What's next?
 
-=== Simulating your city 
+=== Simulating your city
 
 Simulating activity is critical to test improvements and determine what will be effective at achieving your intended goals and cost efficient to implement. Out next labs will start down this process.
 
@@ -347,13 +347,8 @@ Simulating activity is critical to test improvements and determine what will be 
 
 Analytics derived from smart city data and sensors can significantly enhance the quality of life for citizens in various ways.
 
-The Openshift AI platform that can be  deployed with Openshift Container Platform is a critical enabler of a complete analytic workflow process by allowing these simulations to drive experiments, collect the results, and detect and check for potential errors or biases (which is essential anytime you are working with simulated data) 
+The Openshift AI platform that can be  deployed with Openshift Container Platform is a critical enabler of a complete analytic workflow process by allowing these simulations to drive experiments, collect the results, and detect and check for potential errors or biases (which is essential anytime you are working with simulated data)
 
 === Other domains
 
 We are focused on traffic scenarios ad that is what these devices provide data for. But smart cities have to leverage a lot of other data types and integrate these. In concert, e NSGI-lD data models and the FIWARE platform encompass many of these domains
-
-
-
-
-

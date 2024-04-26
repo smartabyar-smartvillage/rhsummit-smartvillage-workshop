@@ -1,12 +1,12 @@
-= The smart village microservice
+= The Smart Village Microservice
 
-We are writing a Microservice that we can run on openshift. The goal is to read Map data from the official Smart Village API and push map data to your own Smart Village instance that we have deployed in the previous labs.
+We are writing a microservice that we can run on openshift. The goal is to read Map data from the official Smart Village API and push map data to your own Smart Village instance that we have deployed in the previous labs.
 
 In this lab, we will be making use of the Openshift AI workbench to create our application that can interact with the smart village components we have already seen and deploy an application that can interact with the smart devices in your smart city.   We will do this by writing a Python program and a Dockerfile that will containerize the service -- Openshift AI already has the python oriented development tools to make this process simple and it lays the foundation for later experimentation.
 
 == Setting values we will use for this program
 
-Before we get started, we will set up a few convenience items that we will use for testing this application, we want to talk to the environment you have deployed previously notebook. 
+Before we get started, we will set up a few convenience items that we will use for testing this application, we want to talk to the environment you have deployed previously notebook.
 
 You will set environment variables for `MAP_SERVER_URL`, `CLIENT_ID` and `CLIENT_SECRET` and use them to create a openshift secret we can later download to update our workbench in the next section.
 
@@ -24,20 +24,20 @@ A Jupyter Notebook is an interactive, online notebook, and the primary content o
 +
 TIP: Most commands will echo `DONE` when successful. If not, you may see Ansible failures `failures: N`. Don't fret, if you encounter these in unexpected places, flag a facilitator for help.
 
-. Then Open the second Notebook `deploy-traffic-devices.ipynb` and follow the instructions from there. 
 
-IMPORTANT: 
-When you finish with these notebooks, return here.
+. Then Open the second Notebook `deploy-traffic-devices.ipynb` and follow the instructions from there.
 
-If all went well, you should have been launched into your deployed  smart village management application and see something like: 
+IMPORTANT: When you finish with these notebooks, return here.
+
+If all went well, you should have been launched into your deployed  smart village management application and see something like:
 
 .The traffic flow observation from your deployed devices
-image::_images/smartvillage-iotagent-traffic-flow-observed.png[The traffic flow observation from your deployed devices]
+image::/smartvillage-iotagent-traffic-flow-observed.png[The traffic flow observation from your deployed devices]
 
 This is showing you a representation of your deployed device, in this case a simulated traffic flow. You can also examine the details of this object by selecting on the leaflet.js and OpenStreetMap based map or the object list provided below
 
 .The traffic flow observation from your deployed devices
-image::_images/smartvillage-iotagent-traffic-flow-observed-details.png[The traffic flow observation from your deployed devices]
+image::/smartvillage-iotagent-traffic-flow-observed-details.png[The traffic flow observation from your deployed devices]
 
 If you observe the `URL` from your browser, you will notice this application is being serviced from your workspace.
 
@@ -45,7 +45,7 @@ NOTE: Keep this browser open and we will return to it later.
 
 == Your smart city
 
-YOu now have a front end that you can use to interact with the different infrastructure components that we just laid out. This front end will allow us immediately see the resources and how they are interacting. We have not deployed a lot of sensors or devices yet -- just a small handful,
+You now have a front end that you can use to interact with the different infrastructure components that we just laid out. This front end will allow us immediately see the resources and how they are interacting. We have not deployed a lot of sensors or devices yet -- just a small handful,
 
 What's next?
 
@@ -56,4 +56,3 @@ The platform and tools here are generic microservices, though put to specific us
 === Security, Governance, and -ilities
 
 We've deployed our microservices mostly with an eye to simplicity and enabling connectivity. As your smart cities platforms moves into production, you need to start protecting your infrastructure and the data and services it uses and provides. Fortunately, Red Hat Openshift Container Platform is ready with more advanced security with link:https://access.redhat.com/products/red-hat-advanced-cluster-security-for-kubernetes[Red Hat Advanced Cluster Security], enabling advanced patterns like link:https://www.redhat.com/en/resources/zero-trust-openshift-platform-plus-brief[Zero Trust] and advanced management capabilities with link:https://access.redhat.com/products/red-hat-advanced-cluster-management-for-kubernetes/[Red Hat Advanced Cluster Management].
-

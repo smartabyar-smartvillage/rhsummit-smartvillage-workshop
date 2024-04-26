@@ -1,4 +1,4 @@
-= Smart Cities & Red Hat: powering our future
+= Smart Cities and Red Hat: Powering Our Future
 
 Smart cities will change how we live, work, and experience our everyday lives. In this hands-on lab, participants get a last of the tools that will power this future. We will use the Smart Village Ansible Operator developed by transportation researchers and engineers from the Red Hat collaboration with Boston University to visualize live smart traffic light data in a Red Hat OpenShift Container Platform environment.
 
@@ -30,9 +30,9 @@ Building a smart city typically involves several key steps and components: * Dig
 
 === How can we build a smarter city?
 
-Making our cities smarter is closely tied to improving the information communications technology that we use to build them with, and there are a few key areas that we can focus on: 
+Making our cities smarter is closely tied to improving the information communications technology that we use to build them with, and there are a few key areas that we can focus on:
 
-* *Integrated Information Systems:* Improve efficiency and service delivery by tying together normally separate data and systems. _This is the primary focus of this lab_: how we can build platforms that integrate data and systems to help us build smart cities. 
+* *Integrated Information Systems:* Improve efficiency and service delivery by tying together normally separate data and systems. _This is the primary focus of this lab_: how we can build platforms that integrate data and systems to help us build smart cities.
 
 * *Digital Infrastructure:* The deployment of sensors and connected devices that gather data from the urban environment via high-speed communication networks, data centers, and cloud storage facilities.
 
@@ -64,7 +64,7 @@ There are of course many challenges to creating a smart city including
 
 *  *Sustainability and Environmental Concerns:* Although smart cities aim to enhance sustainability, the implementation of technologies itself requires resources and energy, which can have environmental impacts.
 
-*  *Technical Expertise and Training:* There is often a shortage of skilled professionals who understand both the technological and administrative aspects of running a smart city. Continuous training and hiring of skilled personnel are needed. Open source apporaches allow cities to maximize the pool of talent and resources available to build a smart city. 
+*  *Technical Expertise and Training:* There is often a shortage of skilled professionals who understand both the technological and administrative aspects of running a smart city. Continuous training and hiring of skilled personnel are needed. Open source apporaches allow cities to maximize the pool of talent and resources available to build a smart city.
 
 *  *Coordination Among Various Departments:* Smart cities operate across various sectors and departments, and coordination among all these entities is necessary but often challenging.
 
@@ -100,7 +100,7 @@ For today you are {user} — while many of the following lab sections will a
 First thing you should do is navigate to the starting page for your user — we refer to this as your "showroom" and it should look something like this:
 
 .Your initial showroom environment
-image::_images/intro-lab-initial-user-showroom.png["Your initial showroom environment"]
+image::/intro-lab-initial-user-showroom.png["Your initial showroom environment"]
 
 TIP: We also recommend logging into the terminal in this showroom environment; you may be asked to run command in this during the course of your workshop. In this terminal enter `{login_command}` to login.
 
@@ -108,36 +108,35 @@ Then log into your link:https://{openshift_console_url}[OpenShift Container Plat
 
 == Accessing OpenShift AI
 
-In the OpenShift Console, click on the  image:_images/100002010000003000000024AAAC041571052865.png["apps button"] at the top, image:_images/intro-lab-initial-user-showroom.png["The banner navigation buttons"] then click image:_images/intro-Openshift-AI-application.png[the OpenShift AI option] to log into OpenShift AI. If you are presented with an access authorization page, click the button to image:_images/10000201000000A000000020B028AB197DEBE3A3.png["Login to OpenShift"] / This should log you into OpenShift AI.
+In the OpenShift Console, click on the  image:/100002010000003000000024AAAC041571052865.png["apps button"] at the top, image:intro-initial-openshift-console.png["The banner navigation buttons"] then click image:/intro-Openshift-AI-application.png[the OpenShift AI option] to log into OpenShift AI. If you are presented with an access authorization page, click the button to image:/10000201000000A000000020B028AB197DEBE3A3.png["Login to OpenShift"] / This should log you into OpenShift AI.
 
-Once you are in OpenShift AI, click on the menu button image:_images/100002010000002E000000216426608B65255A13.png[the menu button] in the left navigation pane, and locate and then click on the image:_images/10000201000000B200000027F58611BB363F3154.png[the data science projects button].
+Once you are in OpenShift AI, click on the menu button image:/100002010000002E000000216426608B65255A13.png[the menu button] in the left navigation pane, and locate and then click on the image:/10000201000000B200000027F58611BB363F3154.png[the data science projects button].
 
 IMPORTANT: The project selection is non-standard; read these instructions carefully
 
 If you are presented with a screen stating `No data science projects yet` , *DO NOT* select the Create data science project button
 
-.
-image::_images/intro-create-data-science-project.png[Create data science project button]
+image::intro-create-data-science-project.png[Create data science project button]
 
 Your project has already been created for you. You will need to select:
 
-image::_images/install-datascience-projects.png[ the project type selector ]
+image::/install-datascience-projects.png[ the project type selector ]
 
 and then
 
-image::_images/install-datascience-all-projects.png[ the All project option ]
+image::/install-datascience-all-projects.png[ the All project option ]
 
 You should see a number of projects shown; find the project `{user}-city` and select this project.
 
-Create a new OpenShift AI Workbench by click image:_images/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This *is required* for you to stay consistent with the rest of the lab.
+Create a new OpenShift AI Workbench by click image:/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This *is required* for you to stay consistent with the rest of the lab.
 
-For Image selection, choose image:_images/100002010000007B0000003FA29A900E8890D587.png[Minimal Python]. You can leave the rest of the fields as the default. At the very bottom, click image:_images/1000020100000091000000211148800178F97C50.png[the Create Workbench button] .
+For Image selection, choose image:/100002010000007B0000003FA29A900E8890D587.png[Minimal Python]. You can leave the rest of the fields as the default. At the very bottom, click image:/1000020100000091000000211148800178F97C50.png[the Create Workbench button] .
 
-After a minute or two, you should see the workbench change from image:_images/10000201000000460000002FDF0FBBBC61A6E1C5.png[starting] to image:_images/100002010000003A00000030BD8223197D20CCFD.png[running] .
+After a minute or two, you should see the workbench change from image:/10000201000000460000002FDF0FBBBC61A6E1C5.png[starting] to image:/100002010000003A00000030BD8223197D20CCFD.png[running] .
 
-Once `running`, you should be able to access your OpenShift AI Workbench by clicking on the image:_images/100002010000004200000023E46306A5CE3ADC98.png[open] link to open your new OpenShift AI Workbench.
+Once `running`, you should be able to access your OpenShift AI Workbench by clicking on the image:/100002010000004200000023E46306A5CE3ADC98.png[open] link to open your new OpenShift AI Workbench.
 
-If presented with an authorization request, you will need to authorize yourself access to your workbench. Click  image:_images/10000201000000A000000020B028AB197DEBE3A3.png[the Log in with OpenShift ] button to proceed.
+If presented with an authorization request, you will need to authorize yourself access to your workbench. Click  image:/10000201000000A000000020B028AB197DEBE3A3.png[the Log in with OpenShift ] button to proceed.
 
 Helpful tips for running the commands in this notebook
 There are several commands that are written into this notebook that can be run directly in the notebook.
@@ -146,25 +145,22 @@ In general you can move through notebooks in order, and we recommend reading the
 
 You can use the arrow keys to move to the next section of the notebook.
 
-In some cases you will need or want to open a Terminal inside your OpenShift AI Workbench to load the course resources. There are many ways to open a terminal, but here is one that always works: at the top of the notebook interface, click image:_images/100002010000002300000017A7751A2F8CB5671D.png[ the File menu] then image:_images/100002010000002800000016B63989EE943480F7.png[the new option], and finally the image:_images/100002010000004D00000018604E6A830090C94F.png[the terminal option].
+In some cases you will need or want to open a Terminal inside your OpenShift AI Workbench to load the course resources. There are many ways to open a terminal, but here is one that always works: at the top of the notebook interface, click image:/100002010000002300000017A7751A2F8CB5671D.png[ the File menu] then image:/100002010000002800000016B63989EE943480F7.png[the new option], and finally the image:/100002010000004D00000018604E6A830090C94F.png[the terminal option].
 
 NOTE: We recommend leaving this terminal open during the this lab. You will be asked to execute commands in it.
 
 
-== Acronyms used in this lab 
+== Acronyms used in this lab
 
 The following acronyms are used in this lab
 
-.Acronyms used in this lab 
+.Acronyms used in this lab
 |===
-|	Acronym |	Meaning/Concept		| Learn More
-| NERC 		| New England Research Cloud								| link:https://nerc.mghpcc.org/[About the New England Research Cloud]
-| FIWARE 	| Future Internet -WARE; a curated framework of Open Source Platform components to accelerate the development of Smart Solutions | link:fiware.org[About FiWARE]
-| NGSI-LD 	| Next Generation Service Interface for Linked Data 	| link:https://en.wikipedia.org/wiki/NGSI-LD[About NGSI-LD on wikipedia]
-| JSON-LD 	| JavaScript Object Notation for Linked Data			| link:https://en.wikipedia.org/wiki/JSON-LD[About JSON-LD on wikipedia]
-| OWL		| 		| 
-| REST | Representative State Transfer 		| 
+|Acronym |Meaning/Concept| Learn More
+| NERC | New England Research Cloud| link:https://nerc.mghpcc.org/[About the New England Research Cloud]
+| FIWARE | Future Internet -WARE; a curated framework of Open Source Platform components to accelerate the development of Smart Solutions | link:fiware.org[About FiWARE]
+| NGSI-LD | Next Generation Service Interface for Linked Data | link:https://en.wikipedia.org/wiki/NGSI-LD[About NGSI-LD on wikipedia]
+| JSON-LD | JavaScript Object Notation for Linked Data| link:https://en.wikipedia.org/wiki/JSON-LD[About JSON-LD on wikipedia]
+| OWL| |
+| REST | Representative State Transfer |
 |===
-
-
-

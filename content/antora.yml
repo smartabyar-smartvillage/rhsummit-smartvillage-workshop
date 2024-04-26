@@ -7,6 +7,9 @@ nav:
 
 asciidoc:
   attributes:
+    login_command: LOGIN_COMMAND_PLACEHOLDER
+    openshift_console_url: OPENSHIFT_CONSOLE_URL_PLACEHOLDER
+    user: USER_PLACEHOLDER
     lab_name: "Visualizing Live Traffic Data from the Edge to the Cloud"
     release-version: master
     page-pagination: true

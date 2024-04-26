@@ -1,29 +1,28 @@
-= Visualizing the scenario
+= Visualizing the Scenario
 
 We have seen how we can lay our the necessary infrastructure and devices to start building a smart city, and we have been able to define and connect up smart devices in a smart city platform.
 
-
-== Your smart city
+== Your Smart City
 
 During the course of this workshop, you built the necessary components for a smart city digital infrastructure platform. Use this opportunity to take a look at the platform we built.
 
-To do this, we will head back to the {openshift_console_url}. Once there, head to the image:_images/visualizing-developer-perspective-button.png and then select the topology button.
+To do this, we will head back to the {openshift_console_url}. Once there, head to the image:visualizing-developer-perspective-button.png[] and then select the topology button.
 
 .Your smart village platform should look something like this at this point
-image::_images/openshift-smart-village-topology.png[Your smart village platform should look something like this at this point]
+image::/openshift-smart-village-topology.png[Your smart village platform should look something like this at this point]
 
-You may have noticed during the course of building the platform, we had some components that we did not use or discuss -- primarily the `SUMO` component in this topology here. 
+You may have noticed during the course of building the platform, we had some components that we did not use or discuss -- primarily the `SUMO` component in this topology here.
 
 .The SUMO component, unused in our previous labs
-image::_images/sumo-simulator.png[The SUMO component, unused in our previous labs ]
+image::/sumo-simulator.png[The SUMO component, unused in our previous labs ]
 
-YOu may have also notice in our front end web application, a image:_images/smartvillage-simulation-report-button.png[button for the simulation environment]. Had you clicked on this button you would have been brought to a form to submit simulations for testing and experimentation:
+You may have also notice in our front end web application, a image:/smartvillage-simulation-report-button.png[button for the simulation environment]. Had you clicked on this button you would have been brought to a form to submit simulations for testing and experimentation:
 
 .The smartvillage simulation form
-image::_images/simulation-report-form.png[The smartvillage simulation form]  
+image::/simulation-report-form.png[The smartvillage simulation form]
 
 .which is actually a fairly long form
-image::_images/smartvillage-simulation-report-2.png image::_images/simulation-report-form.png[which is actually a fairly long form]  
+image::/smartvillage-simulation-report-2.png[] image:/simulation-report-form.png[which is actually a fairly long form]
 
 Had you attempted to select the form, of course nothing would have happened.
 
@@ -35,7 +34,7 @@ Also during the course of this workshop, you added some IoT devices into an exis
 Unfortunately in a constrained workshop environment like we have here, we were not able to exercise all the components and in particular we could not use the SUMO traffic simulation to inject live traffic and relied instead on the live feed from our demo connection to the NERC environment and its data.
 
 .The SUMO traffic simulator
-image::_images/sumo-overview.png[The SUMO traffic simulator]
+image::/sumo-overview.png[The SUMO traffic simulator]
 
 `SUMO` is an open source application that allows modeling of intermodal traffic systems including road vehicles, public transport and pedestrians. Included with SUMO is a wealth of supporting tools which handle tasks such as route finding, visualization, network import and emission calculation. SUMO can be enhanced with custom models and provides various APIs to remotely control the simulation. High quality simulations are important to be able to experiment with changes to city infrastructure or citizen technology, and a good simulator must handle scenarios including:
 
@@ -62,34 +61,34 @@ image::_images/sumo-overview.png[The SUMO traffic simulator]
 As an open source solution, SUMO has also created rich community of providers of open source real and simulated data, such as link:https://www.research-collection.ethz.ch/handle/20.500.11850/584669[this 24 hour simulated data set covering several cities] (including Red Hat's engineering home  in Boston MA)
 
 .The "TAPAS Cologne" simulation scenario
-image::_images/Tapas-cologne-simulation.png[The TAPAS Cologne simulation scenario with 24 hrs of data]
+image::/Tapas-cologne-simulation.png[The TAPAS Cologne simulation scenario with 24 hrs of data]
 
 The "TAPAS Cologne" simulation scenario describes the traffic within the city of Cologne, Germany for a whole day. The original demand data stems from TAPAS, a system which computes mobility wishes for an area population generated based on information about travelling habits of Germans and on information about the infrastructure of the area they live in.
 
 Veberöd smart villiage's platform does have a working instance of the `SUMO` simulator. Had we used this we would have been able to submit simulation reports:
 
 .A simulation report
-image::_images/visualizing-a-fully-deployed-smart-city-platform.png[a submitted simulation report]
+image::/visualizing-a-fully-deployed-smart-city-platform.png[a submitted simulation report]
 
 We would have been able to collect the associated data and analysis in the smart village platform:
 
 .The raw data
-image::_images/visualizing-a-fully-deployed-smart-city-platform-simulation-results.png[The raw data from individual simulation runs]
+image::/visualizing-a-fully-deployed-smart-city-platform-simulation-results.png[The raw data from individual simulation runs]
 
 .Actionable insights from that raw data
-image::_images/simulation-data-analysis.png[That raw data yeilds actionable insights from that raw data]
+image::/simulation-data-analysis.png[That raw data yeilds actionable insights from that raw data]
 
 == A real smart city
 
 Even though we were limited in the what we could do in the workshop format, fortunately  there is a thriving ecosystem of providers with components and specialized tools that solve specific challenges in the domains we noted earlier; traffic management and optimization is just one of many domains. Solutions that layer on top of and use the context broker architecture to exchange data is immense and covers smart lighting, energy management, emergency response, and many others.
-   
+
 .FiWARE's rich ecosystem of components
-image::_images/FiWARE-marketplace.png[The FIWARE marketplace provides a rich ecosystem of certified solutions built to common, open data and integration standards]
+image::/FiWARE-marketplace.png[The FIWARE marketplace provides a rich ecosystem of certified solutions built to common, open data and integration standards]
 
 Other providers and integrators like link:https://www.ui.city/en/[UI!] provide pre-built solutions already integrated and ready to deploy, built on these same technologies
 
 .An integrated smart city solution
-image::_images/UI-cockpit.png[An integrated smart city solution]
+image::/UI-cockpit.png[An integrated smart city solution]
 
 What's next?
 
@@ -100,5 +99,3 @@ Building the necessary physical and digital infrastructure in order to collect t
 === real use cases
 
 Focusing on the domain areas where you need to deliver the most value for your citizens, or meet regulatory needs, or provide avenues for funding and investment with solutions and delivery partners.
-
-
