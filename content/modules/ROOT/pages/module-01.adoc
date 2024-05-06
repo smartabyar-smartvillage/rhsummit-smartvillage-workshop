@@ -118,7 +118,7 @@ If you are presented with a screen stating `No data science projects yet` , *DO 
 
 image::intro-create-data-science-project.png[Create data science project button]
 
-Your project has already been created for you. You will need to select:
+Your project *MAY* have already been created for you. You will need to select:
 
 image::/install-datascience-projects.png[ the project type selector ]
 
@@ -126,7 +126,7 @@ and then
 
 image::/install-datascience-all-projects.png[ the All project option ]
 
-You should see a number of projects shown; find the project `{user}-city` and select this project.
+You should see a number of projects shown; find the project `{user}-city` and select this project. *IF* this project does not exist, then select the image:intro-create-data-science-project-button.png[Create data science project button] to create a new project, and name this project `{user}-city`. Do not get creative with the name, as later parts of this lab will depend on this name.
 
 Create a new OpenShift AI Workbench by click image:/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This *is required* for you to stay consistent with the rest of the lab.
 
