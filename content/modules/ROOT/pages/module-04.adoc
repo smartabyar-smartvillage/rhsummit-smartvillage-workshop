@@ -106,118 +106,41 @@ Completion of this exercise is not required for later portions of the lab.
 
 Now that we have created some smart devices, and hopefully these included:
 
-* at least one *traffic light* which you should have saved the geojson encoding for
 * at least one *traffic camera* which you should have saved the geojson encoding for
+* at least one *pedestrian camera* which you should have saved the geojson encoding for
+* at least one *traffic light* that can automatically include the areaServed for each traffic camera and pedestrian camera you have configured earlier by providing the right `customTrafficLightId` to match the device id of the traffic light.
 
-we will create the equivalent representations of these devices in the smart village platform. For the most part the names of these objects will be easy  to recognize and map to normal objects and concepts. In this case though the our traffic camera is represented by a *TrafficFlowObserved* object -- which refers to observations recorded by the camera rather than the camera itself.
-
-=== Create your `SmartTrafficLight` (s)
-
-In your OpenShift Container Platform console:
-
-. Make sure you are in your project (eg `user1`)
-
-. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
-
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
-`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
-
-. Select the `(STL) SmartTrafficLight` object. Feel free to look at the tabs in the API object page, pay attention to the `Schema` and note how the `spec` matches  the comments above.
-
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
-
-. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
-
-----
-apiVersion: smartvillage.computate.org/v1
-kind: SmartTrafficLight
-metadata:
-  name: veberod-intersection-1
-  namespace: smartvillage
-spec:
-  iotagent:
-    name: iotagent-json
-    namespace: smartvillage
-    service_name: iotagent-json
-  context_broker:
-    name: scorpiobroker
-    namespace: smartvillage
-    service_name: scorpiobroker
-  ngsi_ld:
-    service: smarttrafficlights
-    service_path: /Sweden/Veberod/CityCenter
-    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
-  device:
-    id: veberod-intersection-1
-    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
-  message_broker:
-    namespace: smartvillage
-    transport: AMQP
-    host: default-rabbitmq.smartvillage.svc
-    port: 5672
-    user: user
-    secret:
-      name: rabbitmq-password
-      key: rabbitmq-password
-  smartvillage:
-    auth_secret_name: smartvillage
-    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
-    site_base_url: http://smartabyar-smartvillage-web:8080
-  attributes:
-    areaServed: [{"type":"Point","coordinates":[13.492248,55.633959]},{"type":"Point","coordinates":[13.492458,55.633757]},{"type":"Point","coordinates":[13.492405,55.633698]},{"type":"Point","coordinates":[13.492122,55.634042]},{"type":"Point","coordinates":[13.492553,55.633854]},{"type":"Point","coordinates":[13.491934,55.632754]},{"type":"Point","coordinates":[13.491919,55.634174]},{"type":"Point","coordinates":[13.492357,55.633659]},{"type":"Point","coordinates":[13.491968,55.632918]},{"type":"Point","coordinates":[13.491962,55.63289]},{"type":"Point","coordinates":[13.491974,55.632948]},{"type":"Point","coordinates":[13.491939,55.632781]},{"type":"Point","coordinates":[13.491993,55.633038]},{"type":"Point","coordinates":[13.491951,55.632836]},{"type":"Point","coordinates":[13.491982,55.632987]},{"type":"Point","coordinates":[13.491945,55.632809]},{"type":"Point","coordinates":[13.492009,55.633098]},{"type":"Point","coordinates":[13.491956,55.632863]},{"type":"Point","coordinates":[13.492515,55.633705]},{"type":"Point","coordinates":[13.492409,55.633592]},{"type":"Point","coordinates":[13.493135,55.634372]},{"type":"Point","coordinates":[13.492034,55.63316]},{"type":"Point","coordinates":[13.492846,55.634016]},{"type":"Point","coordinates":[13.492106,55.63328]},{"type":"Point","coordinates":[13.492671,55.633824]},{"type":"Point","coordinates":[13.492212,55.633395]},{"type":"Point","coordinates":[13.493301,55.634581]},{"type":"Point","coordinates":[13.492307,55.63349]},{"type":"Point","coordinates":[13.492235,55.63401]},{"type":"Point","coordinates":[13.492362,55.633929]},{"type":"Point","coordinates":[13.490762,55.635001]},{"type":"Point","coordinates":[13.492425,55.633889]},{"type":"Point","coordinates":[13.493587,55.634973]},{"type":"Point","coordinates":[13.492298,55.63397]},{"type":"Point","coordinates":[13.493449,55.634775]},{"type":"Point","coordinates":[13.492488,55.633848]},{"type":"Point","coordinates":[13.490858,55.634919]},{"type":"Point","coordinates":[13.49162,55.634412]}]
-    smartTrafficLightName: Veberöd intersection 1
-
-----
-
-*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
-
-
-NOTE:
-Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
+we will create the equivalent representations of these devices in the smart village platform. For the most part the names of these objects will be easy to recognize and map to normal objects and concepts. 
 
 === Create your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
 
-Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
+In this case though the our traffic camera is represented by a *TrafficFlowObserved* object -- which refers to observations recorded by the camera rather than the camera itself.
+When creating the `areaServed` GeoJSON data for TrafficFlowObserved, be sure to use a LineString representing the center of a lane of traffic to watch for vehicles. 
 
-. Make sure you are in your project (eg `user1`)
+In your OpenShift AI Workbench:
 
-. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
-
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
-`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
-
-. *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
-
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
-
-. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
+. In your workbench home directory, create a new YAML file named `TrafficFlowObserved-sweden-veberod-1-lakaregatan-ne.yaml`. Copy this resource into the editor.
 
 ----
 apiVersion: smartvillage.computate.org/v1
 kind: TrafficFlowObserved
 metadata:
   name: sweden-veberod-1-lakaregatan-ne
-  namespace: smartvillage
 spec:
   iotagent:
-    name: iotagent-json
-    namespace: smartvillage
-    service_name: iotagent-json
+    base_url: http://iotagent-json:4041
   context_broker:
-    name: scorpiobroker
-    namespace: smartvillage
-    service_name: scorpiobroker
+    base_url: http://scorpiobroker:9090
   ngsi_ld:
     service: trafficflowobserveds
     service_path: /Sweden/Veberod/CityCenter
     context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
   device:
     id: sweden-veberod-1-lakaregatan-ne
-    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
+    subscription_url: http://ngsild-smartvillage-sync:8080
   message_broker:
-    namespace: smartvillage
     transport: AMQP
-    host: default-rabbitmq.smartvillage.svc
+    host: default-rabbitmq
     port: 5672
     user: user
     secret:
@@ -225,7 +148,7 @@ spec:
       key: rabbitmq-password
   smartvillage:
     auth_secret_name: smartvillage
-    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
+    auth_token_url: https://keycloak.rhsso.svc/auth/realms/openshift/protocol/openid-connect/token
     site_base_url: http://smartabyar-smartvillage-web:8080
   attributes:
     trafficSimulationId: urn:ngsi-ld:TrafficSimulation:veberod-intersection-1
@@ -248,54 +171,47 @@ spec:
 
 *Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
 
+Open a new Terminal in your OpenShift AI Workbench, `File -> New -> Terminal`.
+
+Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Traffic Flow Observed resource through the FIWARE platform to the Smart Village Platform.
+
+----
+ansible-playbook ~/smartvillage-operator/apply-trafficflowobserved.yaml \
+  -e ansible_operator_meta_namespace=$(oc project -q) \
+  -e crd_path=~/TrafficFlowObserved-sweden-veberod-1-lakaregatan-ne.yaml
+----
+
 NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
 
 === Create your `CrowdFlowObserved` (s)
 
-These objects represent traffic cameras that can also detect and track pedestrian activity. We did not create these in Geojson , but you can use the same coordinates for these from the above TrafficFlowObserved objects. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets.
+These objects represent traffic cameras that can also detect and track pedestrian activity. When creating the `areaServed` GeoJSON data for CrowdFlowObserved, be sure to use a polygon representing the area on one corner of a sidewalk to watch for pedestrians. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets.
 
-Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
+In your OpenShift AI Workbench:
 
-. Make sure you are in your project (eg `user1`)
-
-. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
-
-. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
-`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
-
-. *This time* Select the `(TFO) TrafficFlowObserved` object. Again, feel free to look at the tabs in the API object page. You can also link:https://github.com/smartabyar-smartvillage/smartvillage-operator/tree/main/kustomize/overlays/rhsummit/trafficflowobserveds[examine some samples of this object].
-
-. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
-
-. You should see an unpopulated object definition in Openshift's default YAML editor. Copy this object:into the editor, *Replacing* the existing content
+. In your workbench home directory, create a new YAML file named `CrowdFlowObserved-sweden-veberod-1-dorrodsvagen-ne-sjobovagen-se.yaml`. Copy this resource into the editor.
 
 ----
 apiVersion: smartvillage.computate.org/v1
-kind: TrafficFlowObserved
+kind: CrowdFlowObserved
 metadata:
-  name: sweden-veberod-1-lakaregatan-ne
-  namespace: smartvillage
+  name: sweden-veberod-1-dorrodsvagen-ne-sjobovagen-se
 spec:
   iotagent:
-    name: iotagent-json
-    namespace: smartvillage
-    service_name: iotagent-json
+    base_url: http://iotagent-json:4041
   context_broker:
-    name: scorpiobroker
-    namespace: smartvillage
-    service_name: scorpiobroker
+    base_url: http://scorpiobroker:9090
   ngsi_ld:
-    service: trafficflowobserveds
+    service: crowdflowobserveds
     service_path: /Sweden/Veberod/CityCenter
     context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
   device:
-    id: sweden-veberod-1-lakaregatan-ne
-    subscription_url: http://ngsild-smartvillage-sync.smartvillage.svc:8080
+    id: sweden-veberod-1-dorrodsvagen-ne-sjobovagen-se
+    subscription_url: http://ngsild-smartvillage-sync:8080
   message_broker:
-    namespace: smartvillage
     transport: AMQP
-    host: default-rabbitmq.smartvillage.svc
+    host: default-rabbitmq
     port: 5672
     user: user
     secret:
@@ -303,25 +219,14 @@ spec:
       key: rabbitmq-password
   smartvillage:
     auth_secret_name: smartvillage
-    auth_token_url: https://keycloak-rhsso.apps.cluster-7mdxh.sandbox2511.opentlc.com/auth/realms/openshift/protocol/openid-connect/token
+    auth_token_url: https://keycloak.rhsso.svc/auth/realms/openshift/protocol/openid-connect/token
     site_base_url: http://smartabyar-smartvillage-web:8080
   attributes:
     trafficSimulationId: urn:ngsi-ld:TrafficSimulation:veberod-intersection-1
     customTrafficLightId: urn:ngsi-ld:SmartTrafficLight:veberod-intersection-1
-    laneAreaDetectorId: det_13
-    areaServed: {"type":"LineString","coordinates":[[13.491925461716146,55.63271352675811],[13.491959719458668,55.6328803799553],[13.492001830794774,55.63307851322209],[13.49203583929166,55.633165023015664],[13.492094186839967,55.63326306524109],[13.49212323459849,55.63330503030353],[13.49224266648859,55.633425750604616],[13.49241399185663,55.63359752341646],[13.492416280489497,55.633599977927105],[13.492519465989837,55.63370944475262],[13.492544230047926,55.63372646415785]]}
-    averageVehicleLength: 5
-    averageGapDistance: 1
-    averageVehicleSpeed: 55
-    customRouteId: r42
-    customSigma: 0.5
-    customAcceleration: 2.6
-    customDeceleration: 4.5
-    customMinGreenTime: 10.0
-    customMaxGreenTime: 20.0
-    customAverageVehiclesPerMinute: 10.0
-    customDemandScalingFactor: 1.00
-    customQueueLengthThreshold: 8.0
+    areaServed: {"type":"Polygon","coordinates":[[[13.492653215031588,55.63371800794606],[13.492629362383209,55.63370621199576],[13.492588233600983,55.633705796480186],[13.49256380521436,55.633717268761714],[13.492578413694066,55.633725715953034],[13.492593312031364,55.633730751792605],[13.492608175754006,55.63373255202551],[13.492623008307357,55.63373102682803],[13.492638127257953,55.63372618010228]]]}
+    location: 55.633703,13.49254
+    walkingAreaId: ":267701936_w2"
 ----
 
 
@@ -330,6 +235,73 @@ spec:
 * Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
 * Modify geolocations of these devices to match the camera geometries you defined earlier.
 * you can also update these to whatever you like
+
+Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Traffic Flow Observed resource through the FIWARE platform to the Smart Village Platform.
+
+----
+ansible-playbook ~/smartvillage-operator/apply-crowdflowobserved.yaml \
+  -e ansible_operator_meta_namespace=$(oc project -q) \
+  -e crd_path=~/CrowdFlowObserved-sweden-veberod-1-dorrodsvagen-ne-sjobovagen-se.yaml
+----
+
+=== Create your `SmartTrafficLight` (s)
+
+A SmartTrafficLight can automatically include the areaServed for each traffic camera and pedestrian camera you have configured earlier by providing the right `customTrafficLightId` in each above to match the device id of the smart traffic light below.
+
+Note that the FIWARE Context Broker will automatically prepend `urn:ngsi-ld:SmartTrafficLight:` to the shorter `spec.device.id` below as the complete device ID for this smart traffic light.
+This explains why the traffic light ID for our CrowdFlowObserved and TrafficFlowObserved resources looks like `customTrafficLightId: urn:ngsi-ld:SmartTrafficLight:veberod-intersection-1`.
+
+In your OpenShift AI Workbench:
+
+. In your workbench home directory, create a new YAML file named `SmartTrafficLight-veberod-intersection-1.yaml`. Copy this resource into the editor.
+
+----
+apiVersion: smartvillage.computate.org/v1
+kind: SmartTrafficLight
+metadata:
+  name: veberod-intersection-1
+spec:
+  iotagent:
+    base_url: http://iotagent-json:4041
+  context_broker:
+    base_url: http://scorpiobroker:9090
+  ngsi_ld:
+    service: smarttrafficlights
+    service_path: /Sweden/Veberod/CityCenter
+    context: https://raw.githubusercontent.com/computate-org/smartabyar-smartvillage-static/main/fiware/context.jsonld
+  device:
+    id: veberod-intersection-1
+    subscription_url: http://ngsild-smartvillage-sync:8080
+  message_broker:
+    transport: AMQP
+    host: default-rabbitmq
+    port: 5672
+    user: user
+    secret:
+      name: rabbitmq-password
+      key: rabbitmq-password
+  smartvillage:
+    auth_secret_name: smartvillage
+    auth_token_url: https://keycloak.rhsso.svc/auth/realms/openshift/protocol/openid-connect/token
+    site_base_url: http://smartabyar-smartvillage-web:8080
+  attributes:
+    smartTrafficLightName: Veberöd intersection 1
+----
+
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
+
+Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Smart Traffic Light through the FIWARE platform to the Smart Village Platform.
+
+----
+ansible-playbook ~/smartvillage-operator/apply-smarttrafficlight.yaml \
+  -e ansible_operator_meta_namespace=$(oc project -q) \
+  -e crd_path=~/SmartTrafficLight-veberod-intersection-1.yaml
+----
+
+
+NOTE:
+Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
+
 
 NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
