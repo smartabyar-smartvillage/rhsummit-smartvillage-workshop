@@ -169,7 +169,7 @@ spec:
     customQueueLengthThreshold: 8.0
 ----
 
-*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`, and `spec.device.id`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 
 Open a new Terminal in your OpenShift AI Workbench, `File -> New -> Terminal`.
 
@@ -232,7 +232,7 @@ spec:
 
 *Before Saving:*
 
-* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
+* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`, and `spec.device.id`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 * Modify geolocations of these devices to match the camera geometries you defined earlier.
 * you can also update these to whatever you like
 
@@ -288,7 +288,7 @@ spec:
     smartTrafficLightName: Veberöd intersection 1
 ----
 
-*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
+*Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`, and `spec.device.id`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 
 Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Smart Traffic Light through the FIWARE platform to the Smart Village Platform.
 
