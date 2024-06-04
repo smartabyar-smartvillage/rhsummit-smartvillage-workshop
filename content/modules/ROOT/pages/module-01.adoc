@@ -130,7 +130,7 @@ You should see a number of projects shown; find the project `{user}-city` and se
 
 Create a new OpenShift AI Workbench by click image:/100002010000009100000021A1D82C0B6349F1C3.png[the Create Workbench button]. Name this workbench `{user}-workbench` . If you want to add creativity, do so in the description! This *is required* for you to stay consistent with the rest of the lab.
 
-For Image selection, choose image:/100002010000007B0000003FA29A900E8890D587.png[Minimal Python]. You can leave the rest of the fields as the default. At the very bottom, click image:/1000020100000091000000211148800178F97C50.png[the Create Workbench button] .
+For Image selection, choose image:/100002010000007B0000003FA29A900E8890D587.png[Minimal Python]. and set under "Cluster Storage" the "Persistent storage size" to 5GB instead of default 20GB. You can leave the rest of the fields as the default. At the very bottom, click image:/1000020100000091000000211148800178F97C50.png[the Create Workbench button] .
 
 After a minute or two, you should see the workbench change from image:/10000201000000460000002FDF0FBBBC61A6E1C5.png[starting] to image:/100002010000003A00000030BD8223197D20CCFD.png[running] .
 
