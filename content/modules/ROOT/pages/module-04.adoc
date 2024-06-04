@@ -112,11 +112,24 @@ Now that we have created some smart devices, and hopefully these included:
 
 we will create the equivalent representations of these devices in the smart village platform. For the most part the names of these objects will be easy to recognize and map to normal objects and concepts. 
 
+=== Create your `SmartTrafficLight` (s)
+
+In your OpenShift Container Platform console:
+
+. Make sure you are in your project (eg `user1`)
+
+. Navigate to the Administrator View >> Home >> API Explorer ; This will allow you to find the `CustomResourceDefinition` (s) for the associated objects
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+=======
 === Create your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
 
 In this case though the our traffic camera is represented by a *TrafficFlowObserved* object -- which refers to observations recorded by the camera rather than the camera itself.
 When creating the `areaServed` GeoJSON data for TrafficFlowObserved, be sure to use a LineString representing the center of a lane of traffic to watch for vehicles. 
 
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
+=======
 In your OpenShift AI Workbench:
 
 . In your workbench home directory, create a new YAML file named `TrafficFlowObserved-sweden-veberod-1-lakaregatan-ne.yaml`. Copy this resource into the editor.
@@ -173,6 +186,10 @@ spec:
 
 Open a new Terminal in your OpenShift AI Workbench, `File -> New -> Terminal`.
 
+
+NOTE:
+Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
+=======
 Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Traffic Flow Observed resource through the FIWARE platform to the Smart Village Platform.
 
 ----
@@ -184,11 +201,19 @@ ansible-playbook ~/smartvillage-operator/apply-trafficflowobserved.yaml \
 NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
 
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+=======
 === Create your `CrowdFlowObserved` (s)
+
 
 These objects represent traffic cameras that can also detect and track pedestrian activity. When creating the `areaServed` GeoJSON data for CrowdFlowObserved, be sure to use a polygon representing the area on one corner of a sidewalk to watch for pedestrians. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets.
 
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
+=======
 In your OpenShift AI Workbench:
+
 
 . In your workbench home directory, create a new YAML file named `CrowdFlowObserved-sweden-veberod-1-dorrodsvagen-ne-sjobovagen-se.yaml`. Copy this resource into the editor.
 
@@ -236,7 +261,15 @@ spec:
 * Modify geolocations of these devices to match the camera geometries you defined earlier.
 * you can also update these to whatever you like
 
+
+=== Create your `CrowdFlowObserved` (s)
+
+These objects represent traffic cameras that can also detect and track pedestrian activity. We did not create these in Geojson , but you can use the same coordinates for these from the above TrafficFlowObserved objects. In reality, a single camera often serves both purposes and this dual-use allows more efficient deployment and managemnet of the real world physical assets.
+
+Some of these steps may be omitted if you are still in your OpenShift Container Platform console, otherwise head there and:
+=======
 Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Traffic Flow Observed resource through the FIWARE platform to the Smart Village Platform.
+
 
 ----
 ansible-playbook ~/smartvillage-operator/apply-crowdflowobserved.yaml \
@@ -246,12 +279,21 @@ ansible-playbook ~/smartvillage-operator/apply-crowdflowobserved.yaml \
 
 === Create your `SmartTrafficLight` (s)
 
+
+. In the search box on the right side of API Explorer pane, type in `Traffic` ; you should see see several objects filtered including
+`(STL) SmartTrafficLight`, `(TFO) TrafficFlowObserved`, and `(TS) TrafficSimulation`. Since we will be creating a couple of these objects, remember how to get back to this point.
+=======
 A SmartTrafficLight can automatically include the areaServed for each traffic camera and pedestrian camera you have configured earlier by providing the right `customTrafficLightId` in each above to match the device id of the smart traffic light below.
+
 
 Note that the FIWARE Context Broker will automatically prepend `urn:ngsi-ld:SmartTrafficLight:` to the shorter `spec.device.id` below as the complete device ID for this smart traffic light.
 This explains why the traffic light ID for our CrowdFlowObserved and TrafficFlowObserved resources looks like `customTrafficLightId: urn:ngsi-ld:SmartTrafficLight:veberod-intersection-1`.
 
+
+. Select the `Instances` tab and then the `Create SmartTrafficLight` button.
+=======
 In your OpenShift AI Workbench:
+
 
 . In your workbench home directory, create a new YAML file named `SmartTrafficLight-veberod-intersection-1.yaml`. Copy this resource into the editor.
 
@@ -290,6 +332,13 @@ spec:
 
 *Before Saving:* Make sure you *change the name to a unique name* for each of your traffic lights, located in the YAML document `/metadata/name`, and `spec.device.id`. If you don't create a unique name the objects may not be processed or you may conflict with your peers in the lab.
 
+
+*Before Saving:*
+
+* Make sure you *change the name to a unique name* for each of your traffic cameras, located in the YAML document `/metadata/name`.
+* Modify geolocations of these devices to match the camera geometries you defined earlier.
+* you can also update these to whatever you like
+=======
 Run the Ansible Playbook below in the OpenShift AI Workbench Terminal to deploy the Smart Traffic Light through the FIWARE platform to the Smart Village Platform.
 
 ----
@@ -301,7 +350,6 @@ ansible-playbook ~/smartvillage-operator/apply-smarttrafficlight.yaml \
 
 NOTE:
 Repeat this process for each traffic light you created earlier in this lab, add as many as you like (within reason)
-
 
 NOTE:  Repeat this process for each traffic camera you created earlier in this lab, add as many as you like (within reason)
 
