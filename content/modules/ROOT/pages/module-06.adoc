@@ -11,6 +11,17 @@ To do this, we will head back to the {openshift_console_url}. Once there, head t
 .Your smart village platform should look something like this at this point
 image::/openshift-smart-village-topology.png[Your smart village platform should look something like this at this point]
 
+
+And you should still have your web application from a previous lab available, which should look like:
+
+.You smart village web application should look something like this at this point
+image::/smartvillage-empty-web-application.png[Your smart village web application should look something like this at this point]
+
+If you closed the previous browser window/tab with this, you can return to it from the topology view by selecting
+
+.The smart village web application route button
+image::/smartvillage-web-applicate-button.png[The smart village web application route button]
+
 You may have noticed during the course of building the platform, we had some components that we did not use or discuss -- primarily the `SUMO` component in this topology here.
 
 .The SUMO component, unused in our previous labs
