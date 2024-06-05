@@ -73,34 +73,6 @@ oc get pod -l app.kubernetes.io/instance=iotagent-json
 
 ----
 
-== Registering your smart devices with the agent
-
-In the last exercise, you found and created some smart devices, and hopefully these included
-
-* at least one *traffic light* which you should have saved the geojson encoding for
-* at least one *traffic light observed* which you should have saved the geojson encoding for
-
-We will create these corresponding objects and register these with our shared environment now.
-
-=== Register your `SmartTrafficLight` (s)
-
-BY using the CRDs in the last lab, the smart village operator has already registered these devices for you. Note however, that these devices are listening to and connected to our shared smart village operator instance and not your own.
-
-----
-oc get SmartTrafficLight
-----
-
-=== Register your `TrafficFlowObserved` (s) -- aka your Traffic Cameras
-
-----
-oc get TrafficFlowObserved
-----
-
-=== Register your `CrowdFlowObserved` (s)
-
-----
-oc get CrowdFlowObserved
-----
 == The role of Context information
 
 While we were created these objects, lets take a moment to look a little more closely as what we are creating.
